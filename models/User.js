@@ -75,6 +75,7 @@ module.exports = {
 		});
 	},
 
+	/* args: username password */
 	login: function(args) {
 		return new Promise(function(resolve, reject) {
 			User.findOne({username:args.username}, function(err, user) {
@@ -99,6 +100,30 @@ module.exports = {
 					});
 				} else {
 					reject("Fake username, bro.");
+				}
+			});
+		});
+	},
+
+	changePassword: function(uname, oldp, newp) {
+		return new Promise(function(resolve, reject) {
+			User.findOne({username: uname}, function(err, user) {
+				if (err) reject(err);
+				if (user) {
+					user.comparePassword(oldp, function(err, match) {
+						if (err) reject(err);
+						if (match) {
+							user.password = newp;
+							user.save(function(err, doc) {
+								if (err) reject(err);
+								if (doc) {
+									resolve("Password Updated");
+								} else reject("Error updating Password");
+							});
+						} else reject("invalid password");
+					});
+				} else {
+					reject("User not found.");
 				}
 			});
 		});
