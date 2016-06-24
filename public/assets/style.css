@@ -57,10 +57,10 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
 /*testimonials*/
 .partners img{float: left;margin:0 75px 30px 0;}
-.testimonails{min-height: 195px;}
-.testimonails img{margin-top: 5px;}
-.testimonails span{color: #888;}
-.testimonails span b{font-weight: 400;}
+.testimonials{min-height: 195px;}
+.testimonials img{margin-top: 5px;}
+.testimonials span{color: #888;}
+.testimonials span b{font-weight: 400;}
 .carousel-indicators li{border: 1px solid #ccc;}
 .carousel-indicators{bottom: 0;}
 
@@ -79,7 +79,8 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
 
 .highlight-info{ background:url(../images/laptop_BW.jpg) center fixed; background-size: cover; color:#fff;}
-.highlight-info .overlay{background:rgba(59, 51, 48, 0.7);}
+/*.highlight-info .overlay{background:rgba(59, 51, 48, 0.7);}*/
+.highlight-info .overlay{background:rgba(130, 116, 196, 0.4);}
 .highlight-info h4{color: #fff;margin:0.5em 0 0 0;}
 /*about us*/
 
@@ -141,7 +142,8 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 	.navbar-brand img{height: 37px;}
 	.navbar-toggle{margin-top: 12px;}
 
-	.banner .caption,.carousel-caption,.carousel-control,.carousel-indicators{display: none;}
+	/*.banner .caption,.carousel-caption,.carousel-control,.carousel-indicators{display: none;}*/
+	#centerCaption,.carousel-caption,.carousel-control,.carousel-indicators{display: none;}
 
 	h2.text-center{text-align: left;font-size: 1.7em;}
 	h4 {font: 300 1.2em Roboto,Arial,Helvetica;}
