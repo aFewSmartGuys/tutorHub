@@ -127,5 +127,17 @@ module.exports = {
 				}
 			});
 		});
+	},
+
+	getAll: function() {
+		return new Promise(function(resolve, reject) {
+			User.find({}, function(err, content) {
+				if (err) {
+					console.log(err);
+					reject(err);
+				}
+				resolve(content);
+			});
+		});
 	}
 };

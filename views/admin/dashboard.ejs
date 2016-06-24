@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="dashApp" ng-controller="mainCtrl">
+<head>
+	<title>Dashboard</title>
+</head>
+<body>
+<table>
+	<thead>
+		<tr>
+			<th>username</th>
+			<th>email</th>
+			<th>phone</th>
+			<th>auth lvl</th>
+			<th>last login</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="user in users">
+			<td>{{user.username}}</td>
+			<td>{{user.email}}</td>
+			<td>{{user.phone}}</td>
+			<td>{{user.authLvl}}</td>
+			<td>{{user.lastLogin}}</td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="/js/admin/dashApp.js"></script>
+</html>
