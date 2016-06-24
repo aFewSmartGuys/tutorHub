@@ -10,6 +10,12 @@ var users = require('./routes/users');
 
 var app = express();
 
+// create global connection to mongoDB
+var mongoose = require('mongoose');
+var db = mongoose.connect('mongodb://localhost/tutorhub');
+db.connection.on('error', console.error.bind(console, 'connection error:'));
+db.connection.once('open', function() { console.log('Connected to database.'); });
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
