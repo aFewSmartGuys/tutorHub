@@ -1,16 +1,19 @@
 var mongoose = require("mongoose"),
+	uniqueValidator = require("mongoose-unique-validator");
 	bcrypt = require("bcrypt"),
 	SALT_WORK_FACTOR = 12;
 
 var UserSchema = new mongoose.Schema({
-	username: { type: String, required: true, index: { unique: true } },
+	username: { type: String, required: true, unique: true, uniqueCaseInsensitive: true },
 	password: { type: String, required: true },
-	email: { type: String, required: true, unique: true },
+	email: { type: String, required: true, unique: true, uniqueCaseInsensitive: true },
 	phone: { type: String, required: true },
 	authLvl: { type: String, required: true },
 	lastLogin: { type: String },
 	pref: { type: String }
 });
+
+UserSchema.plugin(uniqueValidator);
 
 var authLevels = {
 	none: 0,
@@ -52,23 +55,18 @@ module.exports = {
 	register: function(args) {
 		return new Promise(function(resolve, reject) {
 			var date = new Date();
-			var lastLogin = date.getMonth() +" /" + date.getDate() + "/" + date.getFullYear();
+			var lastLogin = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
 			var user = new User({
 				username: args.username,
 				password: args.password,
 				email: args.email,
 				phone: args.phone,
-				authLvl: authLevels.none,
+				authLvl: "none",
 				lastLogin: lastLogin
 			});
-
-			User.save(function(err, registeredUser) {
-				if (err) {
-					reject(err);
-					return;
-				}
+			user.save(function(err, registeredUser) {
+				if (err) reject(err);
 				if (registeredUser) {
-					console.log(registeredUser);
 					resolve("User created successfully.");
 				} else {
 					reject("A user has already been created.");
@@ -80,22 +78,18 @@ module.exports = {
 	login: function(args) {
 		return new Promise(function(resolve, reject) {
 			User.findOne({username:args.username}, function(err, user) {
-				if (err) {
-					reject("User not found");
-					return;
-				}
+				if (err) reject(err);
 				if (user) {
 					user.comparePassword(args.password, function(err, success) {
 						if (success) {
 							// update last login
 							var date = new Date();
-							var lastLogin = date.getMonth() +" /" + date.getDate() + "/" + date.getFullYear();
+							var lastLogin = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
 							user.lastLogin = lastLogin;
 							user.save(function(err, updatedUser) {
 								if (err) {
 									reject(err);
 								} else {
-									console.log(updatedUser);
 									resolve("login success");
 								}
 							});
