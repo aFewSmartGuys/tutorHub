@@ -92,9 +92,6 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 /*#signUpCallToAction:hover {text-shadow: 1px 1px 2px black;}*/
 
 
-
-
-
 /*contact*/
 .contactform textarea,.contactform input{width: 100%;padding:1em;border:1px solid #ccc;margin-bottom: 1em;border-radius: 0;outline: none;}
 /*contact*/
@@ -107,6 +104,11 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
 .gototop{position: fixed;bottom: 20px; right: 20px;background: rgba(0,0,0,0.5);padding: 10px;color: #fff;}
 .gototop i{line-height: 0.5em;}
+
+
+/********************/
+/*	MEDIA QUERIES	*/
+/********************/
 
 
 @media (max-width: 1200px) {
