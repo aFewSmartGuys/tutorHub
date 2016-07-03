@@ -56,18 +56,6 @@
 		margin-top: 30px;
 	}
 
-	#signInForm, #registerForm{
-		/*margin: 10% 25%;*/
-		position: absolute;
-		top: 20%;
-		/*left: 37%;*/
-		width: 500px;
-		background: white;
-		padding: 30px 50px;
-		border-radius: 5px;
-		box-shadow: 0 0 5px grey;
-	}
-
 	.formButton{
 		background: #2ea923 !important;
 		color: white !important;
@@ -78,13 +66,41 @@
 		background: #21791a !important;
 	}
 
+	#signInForm, #registerForm{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 500px;
+		margin-left: -250px;
+		margin-top: -185px;
+		background: white;
+		padding: 30px 50px;
+		border-radius: 5px;
+		box-shadow: 0 0 5px grey;
+	}
+
+	#adminLogoText{
+		font-family: 'Lobster', Sans;
+		font-size: 22px;
+		color: black;
+	}
+
+	#adminLogoText:hover, #adminLogoText:focus{text-decoration: none; color: green;}
+
+	/*MEDIA QUERIES*/
+	@media (max-height: 600px){
+		#signInForm, #registerForm{
+			top: 280px;
+		}
+	}
+
 </style>
 
 
 
 <div data-role="page" id="signInPage">
   <div data-role="header" >
-    <h1>TutorHub</h1>
+    <h1><a href="LINK_TO_HOME" id="adminLogoText"><img src="/images/HipsterGlassesDude.png" height="70">TutorHub</a></h1>
   </div>
 
   	<div id="signInForm">
@@ -118,7 +134,7 @@
 
 <div data-role="page" id="registerPage">
 	<div data-role="header">
-		<h1>TutorHub</h1>
+		<h1><a href="LINK_TO_HOME" id="adminLogoText"><img src="/images/HipsterGlassesDude.png" height="70">TutorHub</a></h1>
 	</div>
 
 	<div id="registerForm">
