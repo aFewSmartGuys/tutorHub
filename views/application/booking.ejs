@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Booking</title>
+  </head>
+  <body>
+    <div ng-app="scheduleApp" ng-controller="mainController">
+
+      <div ng-repeat="day in days">
+
+        <h2>{{ day.name }}</h2>
+
+        <div ng-repeat="slot in day.slots">
+
+          <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked">
+
+          <label for="{{ day.name }}-{{ $index }}">{{ slot.time }}<br>
+            <span ng-if="slot.booked">Booked</span>
+            <span ng-if="!slot.booked">Available</span>
+          </label>
+
+        </div>
+      </div>
+
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <script>
+      angular.module('scheduleApp', [])
+      .controller('mainController', function($scope) {
+          $scope.days = [];
+          var exampleDay = {
+            name: "Monday",
+            slots: [{
+              booked: false,
+              time: "9:00"
+            }]
+          };
+          $scope.days.push(exampleDay);
+      });
+    </script>
+  </body>
+</html>

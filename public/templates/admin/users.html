@@ -1,0 +1,20 @@
+<table>
+	<thead>
+		<tr>
+			<th>username</th>
+			<th>email</th>
+			<th>phone</th>
+			<th>auth lvl</th>
+			<th>last login</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="user in users">
+			<td>{{user.username}}</td>
+			<td>{{user.email}}</td>
+			<td>{{user.phone}}</td>
+			<td>{{user.authLvl}}</td>
+			<td>{{user.lastLogin}}</td>
+		</tr>
+	</tbody>
+</table>
