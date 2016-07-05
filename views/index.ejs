@@ -297,20 +297,35 @@
 
 
 
-<div id="contact" class="spacer">
+<div id="signUp" class="spacer">
 <!--Contact Starts-->
 <div class="container contactform center">
 <h2 class="text-center  wowload fadeInUp"><i class="fa fa-paper-plane-o"></i> Sign Up Today!</h2>
 <p class="text-center wowload fadeInUp">It's easy! Give us your name and email address so we can set up a meeting with you and one of our tutors.</p>
-  <div class="row wowload fadeInLeftBig">
+<!--   <div class="row wowload fadeInLeftBig">
       <div class="col-sm-6 col-sm-offset-3 col-xs-12">
         <input type="text" placeholder="Name">
         <input type="text" placeholder="Email">
-        <!-- <textarea rows="5" placeholder="Message"></textarea> -->
         <button class="btn btn-primary" style="background:#2ea932;"><i class="fa fa-paper-plane"></i> Sign Up</button>
-      </div>
+      </div>   -->
 
-      <!-- Add Calendar HERE -->
+
+    <div class="row wowload fadeInLeftBig">
+      <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+        <form action="/auth/register" method="POST">
+          <input type="text" class="form-control" name="username" placeholder="Username" required>
+          <input type="password" class="form-control" name="password" placeholder="Password" required>
+          <input type="password" class="form-control" name="password2" placeholder="Re-Type Password" required>
+          <input type="email" class="form-control" name="email" placeholder="Email" required>
+          <input type="phone" class="form-control" name="phone" placeholder="Phone Number" required>
+          <!-- <button type="submit" class="formButton btn">Register</button> -->
+          <button class="btn btn-primary" style="background:#2ea932;"><i class="fa fa-paper-plane"></i> Sign Up</button>
+        </form>
+        <!-- <input type="text" placeholder="Name"> -->
+        <!-- <input type="text" placeholder="Email"> -->
+        <!-- <textarea rows="5" placeholder="Message"></textarea> -->
+        <!-- <button class="btn btn-primary" style="background:#2ea932;"><i class="fa fa-paper-plane"></i> Sign Up</button> -->
+      </div>
   </div>
 
 

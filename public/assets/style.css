@@ -80,7 +80,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
 .highlight-info{ background:url(../images/laptop_BW.jpg) center fixed; background-size: cover; color:#fff;}
 /*.highlight-info .overlay{background:rgba(59, 51, 48, 0.7);}*/
-.highlight-info .overlay{background:rgba(130, 116, 196, 0.4);}
+.highlight-info .overlay{background:rgba(130, 130, 130, 0.4);}
 .highlight-info h4{color: #fff;margin:0.5em 0 0 0;}
 /*about us*/
 
