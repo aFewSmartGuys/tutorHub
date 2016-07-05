@@ -2,22 +2,12 @@
 <head>
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
-<!--  -->
-
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
+	<!--  -->
 	<link rel="stylesheet" media="screen" href="/assets/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" media="screen" href="/assets/bootstrap/css/bootstrap-responsive.min.css">
 	<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" media="screen" href="/assets/font-awesome.min.css">
-	<!-- <script src="/assets/jquery-1.9.0.min.js"></script> -->
 	<link href="/stylesheets/login.css" rel="stylesheet">
-
-
-<!--  -->
-
 
 	<!-- Google fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
@@ -40,10 +30,10 @@
 
 	<!-- favicon -->
 
-	<link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
-
+	<!-- CSS -->
 	<link rel="stylesheet" href="/assets/style.css">
 </head>
 
@@ -51,19 +41,39 @@
 
 
 <style>
+	#logoContainer{
+		text-decoration: none;
+		position: absolute;
+    	left: 45%;
+	}
+
+	#header{
+		background: rgba(128, 128, 128, 0.25);
+		height: 100px;
+	}
+
 	.pageTransitionLink{
 		float: right;
 		margin-top: 30px;
+		text-decoration: underline !important;
 	}
 
 	.formButton{
 		background: #2ea923 !important;
 		color: white !important;
 		text-shadow: 1px 1px 0 black !important;
+	    position: absolute;
+	    left: 30%;
+	    margin: 15px;
+	    border-radius: 3px;
 	}
 
 	.formButton:hover{
 		background: #21791a !important;
+	}
+
+	.form-control{
+	    margin-bottom: 5px;
 	}
 
 	#signInForm, #registerForm{
@@ -76,7 +86,7 @@
 		background: white;
 		padding: 30px 50px;
 		border-radius: 5px;
-		box-shadow: 0 0 5px grey;
+		box-shadow: 0 0 10px grey;
 	}
 
 	#adminLogoText{
@@ -87,10 +97,14 @@
 
 	#adminLogoText:hover, #adminLogoText:focus{text-decoration: none; color: green;}
 
+	#registerPage{
+		display: none;
+	}
+
 	/*MEDIA QUERIES*/
 	@media (max-height: 600px){
 		#signInForm, #registerForm{
-			top: 280px;
+			top: 300px;
 		}
 	}
 
@@ -98,67 +112,71 @@
 
 
 
-<div data-role="page" id="signInPage">
-  <div data-role="header" >
-    <h1><a href="/" id="adminLogoText"><img src="/images/HipsterGlassesDude.png" height="70">TutorHub</a></h1>
-  </div>
+<div>
+	<div id="header">
+		<h1 id="logoContainer"><a href="/" id="adminLogoText"><img src="/images/HipsterGlassesDude.png" height="70">TutorHub</a></h1>
+	</div>
+	<div id="signInPage">
 
-  	<div id="signInForm">
-    	<h4>Sign In</h4>
-    	<hr/>
-		<form action="/auth/login" method="POST" class="form-horizontal">
-			<div class="control-group">
-			<!-- <label class="control-label" for="username">Username</label> -->
-				<div class="controls">
-					<input type="text" class="form-control" name="username" placeholder="Username" background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" autocomplete="off" required>
+		<div id="signInForm">
+	    	<h4>Sign In</h4>
+	    	<hr/>
+			<form action="/auth/login" method="POST" class="form-horizontal">
+				<div class="control-group">
+				<!-- <label class="control-label" for="username">Username</label> -->
+					<div class="controls">
+						<input type="text" class="form-control" name="username" placeholder="Username" background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" autocomplete="off" required>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-			<!-- <label class="control-label" for="password">Password</label> -->
-				<div class="controls">
-					<input type="password" class="form-control" name="password" placeholder="Password" background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" autocomplete="off" required>
-                </div>
-			</div>
-			<button type="submit" class="formButton btn">Sign In</button>
-		</form>
-    	<a href="#registerPage" data-transition="fade" class="pageTransitionLink">Register</a>
+				<div class="control-group">
+				<!-- <label class="control-label" for="password">Password</label> -->
+					<div class="controls">
+						<input type="password" class="form-control" name="password" placeholder="Password" background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" autocomplete="off" required>
+	                </div>
+				</div>
+				<button type="submit" class="formButton btn">Sign In</button>
+			</form>
+	    	<a class="pageTransitionLink" id="registerTransitionLink">Register</a>
+		</div>
 	</div>
 
-   <!-- <div data-role="main" class="ui-content"> -->
-    <!-- <a href="#registerPage" data-transition="fade" class="pageTransitionLink">Register</a> -->
-  <!-- </div> -->
+	<!--  -->
 
+	<div id="registerPage">
+
+		<div id="registerForm">
+	    	<h4>Register</h4>
+	    	<hr/>
+			<form action="/auth/register" method="POST">
+				<input type="text" class="form-control" name="username" placeholder="Username" required>
+				<input type="password" class="form-control" name="password" placeholder="Password" required>
+				<input type="password" class="form-control" name="password2" placeholder="Re-Type Password" required>
+				<input type="email" class="form-control" name="email" placeholder="Email" required>
+				<input type="phone" class="form-control" name="phone" placeholder="Phone Number" required>
+				<button type="submit" class="formButton btn">Register</button>
+			</form>
+			<a class="pageTransitionLink" id="signInTransitionLink">Sign In</a>
+		</div>
+	</div>
 </div>
 
-<!--  -->
 
-<div data-role="page" id="registerPage">
-	<div data-role="header">
-		<h1><a href="/" id="adminLogoText"><img src="/images/HipsterGlassesDude.png" height="70">TutorHub</a></h1>
-	</div>
+<script>
+	document.getElementById('registerTransitionLink').addEventListener('click', function(){
+		var signInPage 	 = document.getElementById('signInPage');
+		var registerPage = document.getElementById('registerPage');
 
-	<div id="registerForm">
-    	<h4>Register</h4>
-    	<hr/>
-		<form action="/auth/register" method="POST">
-			<input type="text" class="form-control" name="username" placeholder="Username" required>
-			<input type="password" class="form-control" name="password" placeholder="Password" required>
-			<input type="password" class="form-control" name="password2" placeholder="Re-Type Password" required>
-			<input type="email" class="form-control" name="email" placeholder="Email" required>
-			<input type="phone" class="form-control" name="phone" placeholder="Phone Number" required>
-			<button type="submit" class="formButton btn">Register</button>
-		</form>
-		<a href="#signInPage" data-transition="fade" class="pageTransitionLink">Sign In</a>
-	</div>
+		signInPage.style.display = "none";
+		registerPage.style.display = "inherit";
+	});
+	document.getElementById('signInTransitionLink').addEventListener('click', function(){
+		var signInPage 	 = document.getElementById('signInPage');
+		var registerPage = document.getElementById('registerPage');
 
-
-
-	<!-- <div data-role="main" class="ui-content">
-		<a href="#signInPage" data-transition="fade" class="pageTransitionLink">Sign In</a>
-	</div> -->
-
-</div>
-
+		signInPage.style.display = "inherit";
+		registerPage.style.display = "none";
+	});
+</script>
 
 </body>
 
