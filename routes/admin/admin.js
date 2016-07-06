@@ -26,4 +26,18 @@ router.get('/sessions', function(req, res, next) {
 	});
 });
 
+router.post('/sessions/create', function(req, res, next) {
+	// add the tutor to the session
+	var s = req.body;
+	s.student = {};
+	s.tutor = {};
+	Session.new(s).then(function(data){
+		res.setHeader("Content-Type", "application/json");
+		res.json(data);
+	}, function(err){
+		console.log(err);
+		res.json({error: err});
+	});
+});
+
 module.exports = router;

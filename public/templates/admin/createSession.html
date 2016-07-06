@@ -1,0 +1,5 @@
+<form ng-submit="create()" ng-controller="createSessionCtrl">
+	<label for="dateTime">Pick a date and time:</label>
+	<input type="datetime-local" id="dateTime" name="input" ng-model="dateTime" placeholder="yyyy-MM-ddTHH:mm" min="2016-07-01T00:00" max="2020-12-31T00:00" required />
+	<input type="submit">
+</form>

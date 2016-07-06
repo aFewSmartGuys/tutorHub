@@ -2,7 +2,6 @@ var mongoose = require("mongoose"),
 	uniqueValidator = require("mongoose-unique-validator");
 
 var SessionSchema = new mongoose.Schema({
-	time: { type: String, required: true },
 	date: {
 		day: { type: String, required: true },
 		date: { type: Date, required: true }
@@ -34,11 +33,10 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 			var date = new Date();
 			var session = new Session({
-				time: args.time,
 				date: args.date,
 				booked: args.booked,
 				tutor: args.tutor,
-				student: student
+				student: args.student
 			});
 			session.save(function(err, savedSession) {
 				if (err) reject(err);
