@@ -4,13 +4,13 @@
 
     <h2>{{ day.name }}</h2>
 
-    <div ng-repeat="slot in day.slots">
+    <div ng-repeat="session in day.sessions">
 
-      <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked">
+      <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="session.booked" ng-disabled="session.booked">
 
-      <label for="{{ day.name }}-{{ $index }}">{{ slot.time }}<br>
-        <span ng-if="slot.booked">Booked</span>
-        <span ng-if="!slot.booked">Available</span>
+      <label for="{{ day.name }}-{{ $index }}">{{ session.date | date:'HH:mm'}}<br>
+        <span ng-if="session.booked">Booked</span>
+        <span ng-if="!session.booked">Available</span>
       </label>
 
     </div>

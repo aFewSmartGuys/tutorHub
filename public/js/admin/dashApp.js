@@ -51,10 +51,7 @@ function createSessionCtrl($scope, $http) {
 
 	$scope.create = function() {
 		var session = {
-			date: {
-				day: $scope.dateTime.toString().split(" ")[0],
-				date: $scope.dateTime
-			},
+			date: $scope.dateTime,
 			booked: false
 		}
 		$http({
@@ -81,12 +78,14 @@ function rearrange(arr) {
 	});
 	arr.forEach(function(sesh) {
 		var added = false;
-		var dateString = new Date(sesh.date.date).toDateString();
+		sesh.date = new Date(sesh.date);
+		var dateString = sesh.date.toDateString();
+		console.log(dateString);
 		week.forEach(function(day) {
-			if (Object.keys(day).indexOf(dateString) !== -1) {
+			if (day.name === dateString) {
 				// means the current sesh"s day has already been created in the week array
 				// so we simply add this session to the array of sessions in the day of the week
-				day.dateString.push(sesh);
+				day.sessions.push(sesh);
 				added = true;
 			}
 		});
@@ -95,7 +94,8 @@ function rearrange(arr) {
 			// not yet been created.
 			// so we create a day in the week array for the sesh with the sesh added to it
 			var newDay = {};
-			newDay[dateString] = [sesh];
+			newDay.sessions = [sesh];
+			newDay.name = dateString;
 			week.push(newDay);
 		}
 	});

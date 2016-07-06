@@ -2,10 +2,7 @@ var mongoose = require("mongoose"),
 	uniqueValidator = require("mongoose-unique-validator");
 
 var SessionSchema = new mongoose.Schema({
-	date: {
-		day: { type: String, required: true },
-		date: { type: Date, required: true }
-	},
+	date: { type: Date, required: true },
 	booked: { type: Boolean, default: false },
 	tutor: {
 		username: String,
