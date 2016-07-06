@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Booking</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="/js/application/booking.js"></script>
   </head>
   <body>
-    <div ng-app="scheduleApp" ng-controller="mainController">
+    <div ng-app="scheduleApp" ng-controller="mainCtrl">
 
       <div ng-repeat="day in days">
 
@@ -24,21 +26,5 @@
       </div>
 
     </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
-    <script>
-      angular.module('scheduleApp', [])
-      .controller('mainController', function($scope) {
-          $scope.days = [];
-          var exampleDay = {
-            name: "Monday",
-            slots: [{
-              booked: false,
-              time: "9:00"
-            }]
-          };
-          $scope.days.push(exampleDay);
-      });
-    </script>
   </body>
 </html>

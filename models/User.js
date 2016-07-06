@@ -1,5 +1,5 @@
 var mongoose = require("mongoose"),
-	uniqueValidator = require("mongoose-unique-validator");
+	uniqueValidator = require("mongoose-unique-validator"),
 	bcrypt = require("bcrypt"),
 	SALT_WORK_FACTOR = 12;
 
@@ -48,7 +48,6 @@ var User = mongoose.model("User", UserSchema);
 
 module.exports = {
 
-	authLevels: authLevels,
 	/**
 	 * @param args: username, password, email, phone
 	 */
@@ -131,7 +130,7 @@ module.exports = {
 
 	getAll: function() {
 		return new Promise(function(resolve, reject) {
-			User.find({}, function(err, content) {
+			User.find({}, { password: false, _id: false, __v: false }, function(err, content) {
 				if (err) {
 					console.log(err);
 					reject(err);

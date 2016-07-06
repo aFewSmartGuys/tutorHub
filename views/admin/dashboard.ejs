@@ -1,30 +1,15 @@
 <!DOCTYPE html>
-<html ng-app="dashApp" ng-controller="mainCtrl">
+<html>
 <head>
 	<title>Dashboard</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="/js/admin/dashApp.js"></script>
+	<script src="/assets/angular-route.min.js"></script>
 </head>
-<body>
-<table>
-	<thead>
-		<tr>
-			<th>username</th>
-			<th>email</th>
-			<th>phone</th>
-			<th>auth lvl</th>
-			<th>last login</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="user in users">
-			<td>{{user.username}}</td>
-			<td>{{user.email}}</td>
-			<td>{{user.phone}}</td>
-			<td>{{user.authLvl}}</td>
-			<td>{{user.lastLogin}}</td>
-		</tr>
-	</tbody>
+<body ng-app="dashApp" ng-controller="mainCtrl">
+	<a href="#/users">Users</a>
+	<a href="#/sessions">Sessions</a>
+	<div ng-view></div>
 </table>
 </body>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="/js/admin/dashApp.js"></script>
 </html>
