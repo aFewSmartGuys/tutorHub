@@ -8,7 +8,7 @@ var UserSchema = new mongoose.Schema({
 	password: { type: String, required: true },
 	email: { type: String, required: true, unique: true, uniqueCaseInsensitive: true },
 	phone: { type: String, required: true },
-	authLvl: { type: String, required: true },
+	authLvl: { type: Number, required: true },
 	lastLogin: { type: String },
 	pref: { type: String }
 });
@@ -48,6 +48,8 @@ var User = mongoose.model("User", UserSchema);
 
 module.exports = {
 
+	authLevels: authLevels,
+
 	/**
 	 * @param args: username, password, email, phone
 	 */
@@ -60,7 +62,7 @@ module.exports = {
 				password: args.password,
 				email: args.email,
 				phone: args.phone,
-				authLvl: "none",
+				authLvl: 0,
 				lastLogin: lastLogin
 			});
 			user.save(function(err, registeredUser) {
@@ -136,6 +138,18 @@ module.exports = {
 					reject(err);
 				}
 				resolve(content);
+			});
+		});
+	},
+
+	getAuthLvl: function(username) {
+		return new Promise(function(resolve, reject) {
+			User.findOne({username: username}, {authLvl:true}, function(err, usr) {
+				if (err) {
+					console.log(err);
+					reject(err);
+				}
+				resolve(usr.authLvl);
 			});
 		});
 	}

@@ -2,13 +2,14 @@ var express = require('express');
 var router = express.Router();
 var User = require('../../models/User');
 var Session = require('../../models/Session');
+var sessionMiddleware = require('../../service/sessionMiddleware');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('admin/dashboard');
+router.get('/', sessionMiddleware.sessionCheck, sessionMiddleware.enforceAdmin, function(req, res, next) {
+	res.render('admin/dashboard');
 });
 
-router.get('/users', function(req, res, next) {
+router.get('/users', sessionMiddleware.sessionCheckRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	User.getAll().then(function(users) {
 		res.setHeader("Content-Type", "application/json");
 		res.json(users);
@@ -17,7 +18,7 @@ router.get('/users', function(req, res, next) {
 	});
 });
 
-router.get('/sessions', function(req, res, next) {
+router.get('/sessions', sessionMiddleware.sessionCheckRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	Session.getAll().then(function(sessions) {
 		res.setHeader("Content-Type", "application/json");
 		res.json(sessions);
@@ -26,7 +27,7 @@ router.get('/sessions', function(req, res, next) {
 	});
 });
 
-router.post('/sessions/create', function(req, res, next) {
+router.post('/sessions/create', sessionMiddleware.sessionCheckRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	// add the tutor to the session
 	var s = req.body;
 	s.student = {};

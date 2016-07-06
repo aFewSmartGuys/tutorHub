@@ -12,6 +12,15 @@ var admin = require('./routes/admin/admin');
 
 var app = express();
 
+var sessions = require("client-sessions");
+app.use(sessions({
+  cookieName: 'session',
+  secret: 'random string',
+  duration: 45 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+  ephemeral: true
+}));
+
 // create global connection to mongoDB
 var mongoose = require('mongoose');
 var db = mongoose.connect('mongodb://localhost/tutorhub');

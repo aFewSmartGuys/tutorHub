@@ -14,10 +14,11 @@ router.post('/login', function(req, res, next) {
 		password = body.password || '';
 	User.login({username:username, password:password}).then(function(portfolio) {
 		//set the session
-		//req.session.name = name;
+		req.session.username = username;
+		// check the permission lvl
 		res.render('index');
 	}, function(responseText) {
-		//req.session.reset();
+		req.session.reset();
 		console.log(responseText);
 		res.status(400).json({error: 'error logging in.'});
 	});
@@ -35,7 +36,8 @@ router.post('/register', function(req, res, next) {
 			email: body.email,
 			phone: body.phone
 		}).then(function(responseText) {
-			//req.session.name = body.name;
+			req.session.username = body.username;
+			//check the permission lvl
 			res.render('index', {success:responseText});
 		}, function(responseText) {
 			console.log(responseText);

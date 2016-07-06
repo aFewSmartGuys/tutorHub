@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var User = require('../../models/User');
 var Session = require('../../models/Session');
+var sessionMiddleware = require("../../service/sessionMiddleware");
 
-router.get('/', function(req, res, next) {
+router.get('/', sessionMiddleware.sessionCheck, function(req, res, next) {
   res.render('application/booking');
 });
 
-router.get('/sessions', function(req, res, next) {
+router.get('/sessions', sessionMiddleware.sessionCheckRest, function(req, res, next) {
 	var end = new Date();
 	var beginning = new Date();
 	end.setDate(getDate() + 7);
