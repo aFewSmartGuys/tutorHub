@@ -5,11 +5,11 @@ var Session = require('../../models/Session');
 var sessionMiddleware = require('../../service/sessionMiddleware');
 
 /* GET home page. */
-router.get('/', sessionMiddleware.sessionCheck, sessionMiddleware.enforceAdmin, function(req, res, next) {
+router.get('/', sessionMiddleware.enforceSession, sessionMiddleware.enforceAdmin, function(req, res, next) {
 	res.render('admin/dashboard');
 });
 
-router.get('/users', sessionMiddleware.sessionCheckRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
+router.get('/users', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	User.getAll().then(function(users) {
 		res.setHeader("Content-Type", "application/json");
 		res.json(users);
@@ -18,7 +18,7 @@ router.get('/users', sessionMiddleware.sessionCheckRest, sessionMiddleware.enfor
 	});
 });
 
-router.get('/sessions', sessionMiddleware.sessionCheckRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
+router.get('/sessions', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	Session.getAll().then(function(sessions) {
 		res.setHeader("Content-Type", "application/json");
 		res.json(sessions);
@@ -27,7 +27,7 @@ router.get('/sessions', sessionMiddleware.sessionCheckRest, sessionMiddleware.en
 	});
 });
 
-router.post('/sessions/create', sessionMiddleware.sessionCheckRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
+router.post('/sessions/create', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	// add the tutor to the session
 	var s = req.body;
 	s.student = {};

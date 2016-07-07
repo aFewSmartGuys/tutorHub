@@ -4,7 +4,15 @@ var User = require('../../models/User');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('application/index');
+	res.render('application/index');
+});
+
+router.get('/logout', function(req, res, next) {
+	req.session.reset();
+	res.render('index', {
+		authLvl: 0,
+		username: null
+	});
 });
 
 /* POST log a user in */
@@ -12,11 +20,15 @@ router.post('/login', function(req, res, next) {
 	var body = req.body,
 		username = body.username || '',
 		password = body.password || '';
-	User.login({username:username, password:password}).then(function(portfolio) {
+	User.login({username:username, password:password}).then(function(user) {
 		//set the session
+		req.session.reset();
 		req.session.username = username;
 		// check the permission lvl
-		res.render('index');
+		res.render('index', {
+			username: req.session.username,
+			authLvl: user.authLvl
+		});
 	}, function(responseText) {
 		req.session.reset();
 		console.log(responseText);
@@ -35,13 +47,17 @@ router.post('/register', function(req, res, next) {
 			password: body.password,
 			email: body.email,
 			phone: body.phone
-		}).then(function(responseText) {
+		}).then(function(user) {
+			req.session.reset();
 			req.session.username = body.username;
-			//check the permission lvl
-			res.render('index', {success:responseText});
-		}, function(responseText) {
-			console.log(responseText);
-			res.json({error:responseText});
+			res.render('index', {
+				success:responseText,
+				username: req.session.username,
+				authLvl: user.authLvl
+			});
+		}, function(err) {
+			console.log(err);
+			res.json({error:err});
 		});
 	}
 });

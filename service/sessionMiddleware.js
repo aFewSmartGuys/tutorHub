@@ -4,7 +4,7 @@ var insufficientPermissions = {error:"Access Denied."};
 var notAuthenticated = {error:"You are not logged in."};
 var incorrectCredentials = {error:"Fake username bruh."};
 
-function sessionCheck(req, res, next) {
+function enforceSession(req, res, next) {
 	if (req.session && req.session.username) {
 		User.getAuthLvl(req.session.username).then(function(authLvl) {
 			res.locals.authLvl = authLvl;
@@ -19,7 +19,7 @@ function sessionCheck(req, res, next) {
 	}
 }
 
-function sessionCheckRest(req, res, next) {
+function enforceSessionRest(req, res, next) {
 	if (req.session && req.session.username) {
 		User.getAuthLvl(req.session.username).then(function(authLvl) {
 			res.locals.authLvl = authLvl;
@@ -51,7 +51,22 @@ function enforceAdmin(req, res, next) {
 	}
 }
 
-exports.sessionCheck = sessionCheck;
-exports.sessionCheckRest = sessionCheckRest;
+function sessionCheck(req, res, next) {
+	if (req.session && req.session.username) {
+		User.getAuthLvl(req.session.username).then(function(authLvl) {
+			res.locals.authLvl = authLvl;
+			next();
+		}, function(msg) {
+			req.session.reset();
+			res.render("application/index", incorrectCredentials);
+		});
+	} else {
+		next();
+	}
+}
+
+exports.enforceSession = enforceSession;
+exports.enforceSessionRest = enforceSessionRest;
 exports.enforceAdmin = enforceAdmin;
 exports.enforceAdminRest = enforceAdminRest;
+exports.sessionCheck = sessionCheck;

@@ -68,9 +68,9 @@ module.exports = {
 			user.save(function(err, registeredUser) {
 				if (err) reject(err);
 				if (registeredUser) {
-					resolve("User created successfully.");
+					resolve(registeredUser);
 				} else {
-					reject("A user has already been created.");
+					reject("Error creating user.");
 				}
 			});
 		});
@@ -92,7 +92,7 @@ module.exports = {
 								if (err) {
 									reject(err);
 								} else {
-									resolve("login success");
+									resolve(updatedUser);
 								}
 							});
 						} else {
