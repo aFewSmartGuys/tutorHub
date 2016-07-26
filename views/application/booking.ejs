@@ -4,15 +4,21 @@
     <meta charset="utf-8">
     <title>Booking</title>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/journal/bootstrap.min.css">
     <script src="/js/application/booking.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/booking.css">
   </head>
   <body>
-    <div ng-app="scheduleApp" ng-controller="mainCtrl">
-      <div ng-repeat="day in days">
+  <div class="container">
+     <div class="page-header text-center">       
+      <h1>Sessions</h1>        
+    </div>
+    <div class="row times" ng-app="scheduleApp" ng-controller="mainCtrl">
+      <div class="col-md-2 text-center" ng-repeat="day in days">
 
         <h2>{{ day.name }}</h2>
 
-        <div ng-repeat="session in day.sessions">
+        <div class="time-slot" ng-repeat="session in day.sessions">
 
           <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-change="bookSession(session)" ng-model="session.booked" ng-disabled="session.booked">
 
@@ -23,6 +29,7 @@
 
         </div>
       </div>
+    </div>
     </div>
   </body>
 </html>
