@@ -11,7 +11,7 @@ router.get('/', sessionMiddleware.enforceSession, function(req, res, next) {
 router.get('/sessions', sessionMiddleware.enforceSessionRest, function(req, res, next) {
 	var end = new Date();
 	var beginning = new Date();
-	end.setDate(getDate() + 7);
+	end.setDate(beginning.getDate() + 7);
 	Session.getTimeRange(beginning, end).then(function(sessions) {
 		res.setHeader("Content-Type", "application/json");
 		res.json(sessions);

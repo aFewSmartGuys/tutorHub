@@ -16,18 +16,21 @@ function mainCtrl($scope, $http) {
 function rearrange(arr) {
 	var week = [];
 	arr.sort(function(a,b) {
-		if (a.date.date < b.date.date) return -1;
-		if (a.date.date > b.date.date) return 1;
+		var d1 = new Date(a.date.date), d2 = new Date(b.date.date);
+		if (d1 < d2) return -1;
+		if (d1 > d2) return 1;
 		return 0;
 	});
 	arr.forEach(function(sesh) {
 		var added = false;
-		var dateString = sesh.toDateString();
+		sesh.date = new Date(sesh.date);
+		var dateString = sesh.date.toDateString();
+		console.log(dateString);
 		week.forEach(function(day) {
-			if (Object.keys(day).indexOf(dateString) !== -1) {
-				// means the current sesh's day has already been created in the week array
+			if (day.name === dateString) {
+				// means the current sesh"s day has already been created in the week array
 				// so we simply add this session to the array of sessions in the day of the week
-				day.dateString.push(sesh);
+				day.sessions.push(sesh);
 				added = true;
 			}
 		});
@@ -36,7 +39,8 @@ function rearrange(arr) {
 			// not yet been created.
 			// so we create a day in the week array for the sesh with the sesh added to it
 			var newDay = {};
-			newDay[dateString] = [sesh];
+			newDay.sessions = [sesh];
+			newDay.name = dateString;
 			week.push(newDay);
 		}
 	});

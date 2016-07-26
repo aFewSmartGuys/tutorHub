@@ -66,7 +66,7 @@ module.exports = {
 	 */
 	getTimeRange: function(b,e) {
 		return new Promise(function(resolve, reject) {
-			Session.find({ "date.date": { "$gte": b, "$lt": e } }, function(err, sessions) {
+			Session.find({ "date": { "$gte": b, "$lt": e } }, function(err, sessions) {
 				if (err) { console.log(err);reject(err); }
 				resolve(sessions);
 			});
