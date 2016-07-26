@@ -71,7 +71,7 @@ function createSessionCtrl($scope, $http) {
 function rearrange(arr) {
 	var week = [];
 	arr.sort(function(a,b) {
-		var d1 = new Date(a.date.date), d2 = new Date(b.date.date);
+		var d1 = new Date(a.date), d2 = new Date(b.date);
 		if (d1 < d2) return -1;
 		if (d1 > d2) return 1;
 		return 0;

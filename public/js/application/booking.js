@@ -10,13 +10,18 @@ function mainCtrl($scope, $http) {
 	}).then(function(response) {
 		$scope.days = rearrange(response.data);
 	});
+	$scope.bookSession = function(sesh) {
+		console.log("going to book:");
+		console.log(sesh);
+		// make post request to book the session
+	};
 }
 
 // organize the sessions into an array of days
 function rearrange(arr) {
 	var week = [];
-	arr.sort(function(a,b) {
-		var d1 = new Date(a.date.date), d2 = new Date(b.date.date);
+	arr = arr.sort(function(a,b) {
+		var d1 = new Date(a.date), d2 = new Date(b.date);
 		if (d1 < d2) return -1;
 		if (d1 > d2) return 1;
 		return 0;
@@ -25,7 +30,6 @@ function rearrange(arr) {
 		var added = false;
 		sesh.date = new Date(sesh.date);
 		var dateString = sesh.date.toDateString();
-		console.log(dateString);
 		week.forEach(function(day) {
 			if (day.name === dateString) {
 				// means the current sesh"s day has already been created in the week array

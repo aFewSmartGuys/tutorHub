@@ -14,7 +14,7 @@
 
         <div ng-repeat="session in day.sessions">
 
-          <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="session.booked" ng-disabled="session.booked">
+          <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-change="bookSession(session)" ng-model="session.booked" ng-disabled="session.booked">
 
           <label for="{{ day.name }}-{{ $index }}">{{ session.date | date:'HH:mm'}}<br>
             <span ng-if="session.booked">Booked</span>
