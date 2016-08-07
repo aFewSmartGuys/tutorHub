@@ -58,6 +58,10 @@ function createSessionCtrl($scope, $http) {
 	};
 	$scope.days = genSessionList(conf);
 
+	$scope.sessionClick = function(session) {
+		session.select = session.select?false:true;
+	};
+
 	$scope.create = function() {
 		var session = {
 			date: $scope.dateTime,
@@ -124,7 +128,8 @@ function genSessionList(conf) {
 					let session = {
 						date:seshDate,
 						booked: false,
-						tutor: {}
+						tutor: {},
+						select: false
 					};
 					day.sessions.push(session);
 				}
