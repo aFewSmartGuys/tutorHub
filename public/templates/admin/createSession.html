@@ -7,7 +7,10 @@
 </form> -->
 
 <div id="container">
-
+	<div class="day" ng-repeat="day in days">
+		<div class="title">{{day.date | date:'EEE, d'}}</div>
+		<div class="session" ng-repeat="session in day.sessions">{{session.date | date:'hh:mm'}}</div>
+	</div>
 </div>
 
 <div id="settings">

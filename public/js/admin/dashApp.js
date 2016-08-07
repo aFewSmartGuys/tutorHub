@@ -52,11 +52,11 @@ function createSessionCtrl($scope, $http) {
 		weeks:1,
 		tutor:"",
 		start:12,
-		end:13,
-		fractionOfHour:1,
+		end:14,
+		fractionOfHour:2,
 		exclude:[]
 	};
-	$scope.sessions = genSessionList(conf);
+	$scope.days = genSessionList(conf);
 
 	$scope.create = function() {
 		var session = {
@@ -98,26 +98,31 @@ function genSessionList(conf) {
 	},
 	days = [];
 
-	for (let i = 0; i < conf.weeks; ++i) {
-		for (let k = 0; k < 7; ++k) {
+	for (let week = 0; week < conf.weeks; ++week) {
+		for (let dayOfWeek = 0; dayOfWeek < 7; ++dayOfWeek) {
 			let date = new Date();
 			date.setMilliseconds(0);
 			date.setSeconds(0);
 			date.setMinutes(0);
 			date.setHours(0);
-			date.setDate(date.getDate()+k+(i*7));
+			date.setDate(date.getDate()+dayOfWeek+(week*7));
 			
 			let day = {
 				sessions: [],
-				date:date.toDateString()
+				date:date
 			};
 			days.push(day)
-			for (let k = Math.trunc(conf.start); k < Math.ceil(conf.end); ++k) {
-				for (let j = 0; j < conf.fractionOfHour; ++j) {
-					date.setHours(k);
-					date.setMinutes(j*conf.fractionOfHour);
+			if (conf.start<0)conf.start = 0;
+			// create sessions and add them to the current day
+			for (let hour = Math.trunc(conf.start); hour < Math.ceil(conf.end); ++hour) {
+				if (hour>23) break;
+				const sessionLength = 60/conf.fractionOfHour;
+				for (let minute = 0; minute < conf.fractionOfHour; ++minute) {
+					let seshDate = new Date(date);
+					seshDate.setHours(hour);
+					seshDate.setMinutes(minute*sessionLength);
 					let session = {
-						date:date,
+						date:seshDate,
 						booked: false,
 						tutor: {}
 					};
@@ -126,7 +131,6 @@ function genSessionList(conf) {
 			}
 		}
 	}
-	console.log(days);
 	return days;
 }
 
