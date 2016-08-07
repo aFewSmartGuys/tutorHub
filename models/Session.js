@@ -59,6 +59,16 @@ module.exports = {
 		});
 	},
 
+	getUpcoming: function() {
+		return new Promise(function(resolve, reject) {
+			var today = new Date();
+			Session.find({ "date": { "$gte": date }}, function(err, sessions) {
+				if (err) {console.log(err);reject(err);}
+				resolve(sessions);
+			});
+		});
+	},
+
 	/**
 	 * Get all sessions in between b and e
 	 * @param b Date the beginning date

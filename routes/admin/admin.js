@@ -19,7 +19,7 @@ router.get('/users', sessionMiddleware.enforceSessionRest, sessionMiddleware.enf
 });
 
 router.get('/sessions', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
-	Session.getAll().then(function(sessions) {
+	Session.getUpcoming().then(function(sessions) {
 		res.setHeader("Content-Type", "application/json");
 		res.json(sessions);
 	}, function(err) {
