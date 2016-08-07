@@ -34,12 +34,16 @@ function userCtrl($scope, $http) {
 }
 
 function sessionCtrl($scope, $http) {
-	$scope.days = [];
+	$scope.sessions = [];
 	$http({
 		method: "GET",
 		url: "/admin/sessions"
 	}).then(function(response) {
-		$scope.days = rearrange(response.data);
+		$scope.sessions = response.data.map(function(s){
+			s.date = new Date(s.date);
+			return s;
+		});
+		console.log("");
 	});
 }
 
@@ -48,6 +52,8 @@ function createSessionCtrl($scope, $http) {
 	$scope.dateTime.setMinutes(0);
 	$scope.dateTime.setSeconds(0);
 	$scope.dateTime.setMilliseconds(0);
+
+	
 
 	$scope.create = function() {
 		var session = {
@@ -80,7 +86,6 @@ function rearrange(arr) {
 		var added = false;
 		sesh.date = new Date(sesh.date);
 		var dateString = sesh.date.toDateString();
-		console.log(dateString);
 		week.forEach(function(day) {
 			if (day.name === dateString) {
 				// means the current sesh"s day has already been created in the week array
@@ -98,6 +103,6 @@ function rearrange(arr) {
 			newDay.name = dateString;
 			week.push(newDay);
 		}
-	});
+	});console.log(week);
 	return week;
 }

@@ -1,19 +1,40 @@
 <div ng-controller="sessionCtrl">
 
-  <div ng-repeat="day in days">
+  <table class="pure-table pure-table-horizontal pure-table-striped">
+    <thead>
+      <tr>
+        <td>Date</td>
+        <td>Time</td>
+        <td>Booked</td>
+        <td>Student</td>
+        <td>Tutor</td>
+      </tr>
+    </thead>
+    <tbody>
 
-    <h2>{{ day.name }}</h2>
+    </tbody>
+      <tr ng-repeat="session in sessions">
+        <td>{{session.date.toDateString()}}</td>
+        <td>{{session.date.toTimeString()}}</td>
+        <td>{{session.booked}}</td>
+        <td>{{session.student||"Empty"}}</td>
+        <td>{{session.tutor||"Empty"}}</td>
+      </tr>
+    <div ng-repeat="day in days">
 
-    <div ng-repeat="session in day.sessions">
+      <h2>{{ day.name }}</h2>
+      <div ng-repeat="session in day.sessions">
 
-      <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="session.booked" ng-disabled="session.booked">
+        <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="session.booked" ng-disabled="session.booked">
 
-      <label for="{{ day.name }}-{{ $index }}">{{ session.date | date:'HH:mm'}}<br>
-        <span ng-if="session.booked">Booked</span>
-        <span ng-if="!session.booked">Available</span>
-      </label>
+        <label for="{{ day.name }}-{{ $index }}">{{ session.date | date:'HH:mm'}}<br>
+          <span ng-if="session.booked">Booked</span>
+          <span ng-if="!session.booked">Available</span>
+        </label>
+
+      </div>
 
     </div>
-  </div>
+  </table>
 
 </div>
