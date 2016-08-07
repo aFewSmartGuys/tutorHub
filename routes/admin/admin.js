@@ -23,7 +23,17 @@ router.get('/sessions', sessionMiddleware.enforceSessionRest, sessionMiddleware.
 		res.setHeader("Content-Type", "application/json");
 		res.json(sessions);
 	}, function(err) {
-		res.json({error: err});
+		res.status(500).json({error: err});
+	});
+});
+
+router.get('/sessions/list/:tutor', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
+	var tutor = req.params.tutor;
+	Session.getUpcoming(tutor).then(function(sessions) {
+		res.setHeader("Content-Type", "application/json");
+		res.json(sessions);
+	}, function(err) {
+		res.status(500).json({error:err});
 	});
 });
 

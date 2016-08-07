@@ -59,10 +59,18 @@ module.exports = {
 		});
 	},
 
-	getUpcoming: function() {
+	getUpcoming: function(tutor) {
 		return new Promise(function(resolve, reject) {
 			var today = new Date();
-			Session.find({ "date": { "$gte": date }}, function(err, sessions) {
+			var query = { 
+				"date": {
+					"$gte": today
+				}
+			};
+			if (!!tutor) {
+				query.tutor = tutor;
+			}
+			Session.find(query, function(err, sessions) {
 				if (err) {console.log(err);reject(err);}
 				resolve(sessions);
 			});

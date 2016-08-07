@@ -50,13 +50,12 @@ function sessionCtrl($scope, $http) {
 function createSessionCtrl($scope, $http) {
 	let conf = {
 		weeks:1,
-		tutor:"",
+		tutor:"santi",
 		start:12,
 		end:14,
 		fractionOfHour:2,
 		exclude:[]
 	};
-	$scope.days = genSessionList(conf);
 
 	$scope.sessionClick = function(session) {
 		session.select = session.select?false:true;
@@ -78,6 +77,18 @@ function createSessionCtrl($scope, $http) {
 			console.log(response);
 		})
 	};
+
+	$scope.getSessions = function(tutor) {
+		$http({
+			method:"GET",
+			url:"/admin/sessions/list/"+tutor,
+		}).then(function(response) {
+			var savedSessions = response.data;
+			return savedSessions;
+		})
+	};
+
+	$scope.days = genSessionList(conf, $scope.getSessions(conf.tutor));
 }
 
 /**
@@ -90,7 +101,7 @@ function createSessionCtrl($scope, $http) {
  *	- length: number the session length in minutes
  *	- exclude: number an array of days to exclude
  */
-function genSessionList(conf) {
+function genSessionList(conf, savedSessions) {
 	var daysOfWeek = {
 		0: "sun",
 		1: "mon",
@@ -101,6 +112,7 @@ function genSessionList(conf) {
 		6: "sat"
 	},
 	days = [];
+	savedSessions = savedSessions || [];
 
 	for (let week = 0; week < conf.weeks; ++week) {
 		for (let dayOfWeek = 0; dayOfWeek < 7; ++dayOfWeek) {
@@ -131,6 +143,13 @@ function genSessionList(conf) {
 						tutor: {},
 						select: false
 					};
+
+					var sesh = savedSessions.find(function(el){return new Date(el.date) === seshDate;});
+					if (sesh) {
+						session = sesh;
+						session.select = true;
+					}
+
 					day.sessions.push(session);
 				}
 			}
@@ -170,6 +189,5 @@ function rearrange(arr) {
 			week.push(newDay);
 		}
 	});
-	console.log(week);
 	return week;
 }
