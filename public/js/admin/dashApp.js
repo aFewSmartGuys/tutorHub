@@ -51,9 +51,9 @@ function createSessionCtrl($scope, $http) {
 	let conf = {
 		weeks:1,
 		tutor:"",
-		start:8,
-		end:20,
-		length:30,
+		start:12,
+		end:13,
+		fractionOfHour:1,
 		exclude:[]
 	};
 	$scope.sessions = genSessionList(conf);
@@ -87,25 +87,47 @@ function createSessionCtrl($scope, $http) {
  *	- exclude: number an array of days to exclude
  */
 function genSessionList(conf) {
-	var week = [{mon:[]},{tue:[]},{wed:[]},{thu:[]},{fri:[]},{sat:[]},{sun:[]}],
-		sessions = [];
+	var daysOfWeek = {
+		0: "sun",
+		1: "mon",
+		2: "tue",
+		3: "wed",
+		4: "thu",
+		5: "fri",
+		6: "sat"
+	},
+	days = [];
 
 	for (let i = 0; i < conf.weeks; ++i) {
-		week.forEach(function(day, index) {
+		for (let k = 0; k < 7; ++k) {
 			let date = new Date();
 			date.setMilliseconds(0);
 			date.setSeconds(0);
-			date.setDate(date.getDate()+index+(i*7));
 			date.setMinutes(0);
-			day.date = date.toDateString();
-			sessions.push(day)
-			for (let k = Math.trunc(conf.start); k < Math.trunc(conf.end); ++i) {
-				
-				day.booked = false;
-
+			date.setHours(0);
+			date.setDate(date.getDate()+k+(i*7));
+			
+			let day = {
+				sessions: [],
+				date:date.toDateString()
+			};
+			days.push(day)
+			for (let k = Math.trunc(conf.start); k < Math.ceil(conf.end); ++k) {
+				for (let j = 0; j < conf.fractionOfHour; ++j) {
+					date.setHours(k);
+					date.setMinutes(j*conf.fractionOfHour);
+					let session = {
+						date:date,
+						booked: false,
+						tutor: {}
+					};
+					day.sessions.push(session);
+				}
 			}
-		});
+		}
 	}
+	console.log(days);
+	return days;
 }
 
 // organize the sessions into an array of days
