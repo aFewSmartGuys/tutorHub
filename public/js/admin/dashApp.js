@@ -64,11 +64,11 @@ function createSessionCtrl($scope, $http) {
 	$scope.save = function() {
 		var toSave = $scope.days.map(function(s){return s.sessions;});
 		toSave = [].concat.apply([], toSave);
-		toSave = toSave.filter(function(s){return s.select;});
-		console.log(toSave);
+		// keep new selections and old sessions to be removed
+		toSave = toSave.filter(function(s){return (s.select&&!s._id)||(!s.select&&s._id);});
 		$http({
 			method: "POST",
-			url: "/admin/sessions/create",
+			url: "/admin/sessions/update",
 			headers: {
 				"Content-Type": "application/json"
 			},
@@ -83,7 +83,11 @@ function createSessionCtrl($scope, $http) {
 			method:"GET",
 			url:"/admin/sessions/list/"+tutor,
 		}).then(function(response) {
-			$scope.days = genSessionList(conf, response.data);
+			var existingSessions = response.data.map(function(s) {
+				s.pre = true;
+				return s;
+			});
+			$scope.days = genSessionList(conf, existingSessions);
 		})
 	};
 

@@ -47,8 +47,9 @@ module.exports = {
 		});
 	},
 
-	upsert: function(arr, tutor) {
+	insert: function(arr, tutor) {
 		return new Promise(function(resolve, reject) {
+			if (!arr.length) resolve([]);
 			var sessions = arr.filter(function(s) {
 				delete s.select;
 				s.tutor = tutor;
@@ -86,11 +87,10 @@ module.exports = {
 					"$gte": today
 				}
 			};
-			if (!!tutor) {
+			if (tutor) {
 				query.tutor = tutor;
 			}
-			delete tutor._id;
-			console.log(query);
+			// important that we keep the _id because it is used in other when updating sessions
 			Session.find(query, function(err, sessions) {
 				if (err) {console.log(err);reject(err);}
 				resolve(sessions);
@@ -108,6 +108,19 @@ module.exports = {
 			Session.find({ "date": { "$gte": b, "$lt": e } }, function(err, sessions) {
 				if (err) { console.log(err);reject(err); }
 				resolve(sessions);
+			});
+		});
+	},
+
+	/**
+	 * @param arr array of mongo _id objects
+	 */
+	remove: function(arr) {
+		return new Promise(function(resolve, reject) {
+			Session.remove({"_id":{"$in":arr}}, function(err, removed) {
+				if (err) {console.log(err);reject(err);}
+				console.log(removed);
+				resolve(removed);
 			});
 		});
 	}

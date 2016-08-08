@@ -41,16 +41,32 @@ router.get('/sessions/list/:tutor', sessionMiddleware.enforceSessionRest, sessio
 	});
 });
 
-router.post('/sessions/create', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
+router.post('/sessions/update', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	// add the tutor to the session
 	if (!(req.body instanceof Array)) {
 		res.status(400).json({error:"Body is not array of sessions."});
 	}
 
+	var add = [], remove = [];
+	req.body.forEach(function(s) {
+		if (s.select) {
+			add.push(s);
+		} else {
+			// docs to remove will already exist which means they will have an _id field
+			remove.push(s._id);
+		}
+	});
+
 	User.findByUsername(req.session.username).then(function(tutor){
-		Session.upsert(req.body, tutor).then(function(data){
-			res.setHeader("Content-Type", "application/json");
-			res.json(data);
+		Session.insert(add, tutor).then(function(inserted){
+			// then remove the data
+			Session.remove(remove).then(function(removed){
+				res.setHeader("Content-Type", "application/json");
+				res.json([].concat.apply([],removed,inserted));
+			}, function(err) {
+				console.log(err);
+				res.status(500).json({error: err});
+			});
 		}, function(err){
 			console.log(err);
 			res.status(500).json({error: err});
