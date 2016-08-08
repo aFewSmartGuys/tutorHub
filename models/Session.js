@@ -58,8 +58,7 @@ module.exports = {
 			Session.create(sessions,function(err, saved) {
 				if (err) reject(err);
 				if (saved) {
-					console.log(saved);
-					resolve("Sessions saved.");
+					resolve(saved);
 				} else {
 					reject("error saving sessions");
 				}
@@ -119,7 +118,6 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 			Session.remove({"_id":{"$in":arr}}, function(err, removed) {
 				if (err) {console.log(err);reject(err);}
-				console.log(removed);
 				resolve(removed);
 			});
 		});

@@ -74,7 +74,37 @@ function createSessionCtrl($scope, $http) {
 			},
 			data: toSave
 		}).then(function(response) {
-			
+			// update the sessions
+			// add the mongo _id to newly created sessions
+			// remove the mongo _id from deleted sessions
+			var n = response.data.in,
+				r = response.data.re;
+
+			var sessions = $scope.days.map(function(s){return s.sessions;});
+			var flattened = [];
+			for (var i=0; i<sessions.length; ++i) {
+				var current = sessions[i];
+				for (var j=0; j<current.length; ++j)
+					flattened.push(current[j]);
+			}
+			n.forEach(function(ns) {
+				flattened.some(function(s) {
+					if (new Date(s.date).getTime() === new Date(ns.date).getTime()) {
+						s._id = ns._id;
+						return true;
+					}
+					return false;
+				});
+			});
+			r.forEach(function(rs) {
+				flattened.some(function(s) {
+					if (s._id === rs) {
+						delete s._id;
+						return true;
+					}
+					return false;
+				});
+			});
 		});
 	};
 
@@ -83,11 +113,7 @@ function createSessionCtrl($scope, $http) {
 			method:"GET",
 			url:"/admin/sessions/list/"+tutor,
 		}).then(function(response) {
-			var existingSessions = response.data.map(function(s) {
-				s.pre = true;
-				return s;
-			});
-			$scope.days = genSessionList(conf, existingSessions);
+			$scope.days = genSessionList(conf, response.data);
 		})
 	};
 

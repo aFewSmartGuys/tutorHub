@@ -62,7 +62,7 @@ router.post('/sessions/update', sessionMiddleware.enforceSessionRest, sessionMid
 			// then remove the data
 			Session.remove(remove).then(function(removed){
 				res.setHeader("Content-Type", "application/json");
-				res.json([].concat.apply([],removed,inserted));
+				res.json({in:inserted,re:remove});
 			}, function(err) {
 				console.log(err);
 				res.status(500).json({error: err});
