@@ -74,7 +74,7 @@ function createSessionCtrl($scope, $http) {
 			},
 			data: toSave
 		}).then(function(response) {
-			console.log(response);
+			
 		});
 	};
 
