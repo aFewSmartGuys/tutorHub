@@ -28,26 +28,33 @@ router.get('/sessions', sessionMiddleware.enforceSessionRest, sessionMiddleware.
 });
 
 router.get('/sessions/list/:tutor', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
-	var tutor = req.params.tutor;
-	Session.getUpcoming(tutor).then(function(sessions) {
-		res.setHeader("Content-Type", "application/json");
-		res.json(sessions);
-	}, function(err) {
+	User.findByUsername(req.params.tutor).then(function(tutor) {
+		Session.getUpcoming(tutor).then(function(sessions) {
+			res.setHeader("Content-Type", "application/json");
+			res.json(sessions);
+		}, function(err) {
+			res.status(500).json({error:err});
+		});
+	}, function(err){
+		console.log(err);
 		res.status(500).json({error:err});
 	});
 });
 
 router.post('/sessions/create', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	// add the tutor to the session
-	var s = req.body;
-	s.student = {};
-	s.tutor = {};
-	Session.new(s).then(function(data){
-		res.setHeader("Content-Type", "application/json");
-		res.json(data);
-	}, function(err){
-		console.log(err);
-		res.json({error: err});
+	if (!(req.body instanceof Array)) {
+		res.status(400).json({error:"Body is not array of sessions."});
+	}
+
+	User.findByUsername(req.session.username).then(function(tutor){
+		Session.upsert(req.body, tutor).then(function(data){
+			res.setHeader("Content-Type", "application/json");
+			res.json(data);
+		}, function(err){
+			console.log(err);
+			res.status(500).json({error: err});
+		});
 	});
 });
 

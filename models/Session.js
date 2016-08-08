@@ -47,6 +47,25 @@ module.exports = {
 		});
 	},
 
+	upsert: function(arr, tutor) {
+		return new Promise(function(resolve, reject) {
+			var sessions = arr.filter(function(s) {
+				delete s.select;
+				s.tutor = tutor;
+				return s;
+			});
+			Session.create(sessions,function(err, saved) {
+				if (err) reject(err);
+				if (saved) {
+					console.log(saved);
+					resolve("Sessions saved.");
+				} else {
+					reject("error saving sessions");
+				}
+			});
+		});
+	},
+
 	getAll: function() {
 		return new Promise(function(resolve, reject) {
 			Session.find({}, function(err, sessions) {
@@ -70,6 +89,8 @@ module.exports = {
 			if (!!tutor) {
 				query.tutor = tutor;
 			}
+			delete tutor._id;
+			console.log(query);
 			Session.find(query, function(err, sessions) {
 				if (err) {console.log(err);reject(err);}
 				resolve(sessions);

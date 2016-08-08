@@ -61,34 +61,33 @@ function createSessionCtrl($scope, $http) {
 		session.select = session.select?false:true;
 	};
 
-	$scope.create = function() {
-		var session = {
-			date: $scope.dateTime,
-			booked: false
-		}
+	$scope.save = function() {
+		var toSave = $scope.days.map(function(s){return s.sessions;});
+		toSave = [].concat.apply([], toSave);
+		toSave = toSave.filter(function(s){return s.select;});
+		console.log(toSave);
 		$http({
 			method: "POST",
 			url: "/admin/sessions/create",
 			headers: {
 				"Content-Type": "application/json"
 			},
-			data: session
+			data: toSave
 		}).then(function(response) {
 			console.log(response);
-		})
+		});
 	};
 
-	$scope.getSessions = function(tutor) {
+	$scope.setupSessions = function(tutor) {
 		$http({
 			method:"GET",
 			url:"/admin/sessions/list/"+tutor,
 		}).then(function(response) {
-			var savedSessions = response.data;
-			return savedSessions;
+			$scope.days = genSessionList(conf, response.data);
 		})
 	};
 
-	$scope.days = genSessionList(conf, $scope.getSessions(conf.tutor));
+	$scope.setupSessions(conf.tutor);
 }
 
 /**
@@ -144,7 +143,9 @@ function genSessionList(conf, savedSessions) {
 						select: false
 					};
 
-					var sesh = savedSessions.find(function(el){return new Date(el.date) === seshDate;});
+					var sesh = savedSessions.find(function(el){
+						return new Date(el.date).getTime() === seshDate.getTime();
+					});
 					if (sesh) {
 						session = sesh;
 						session.select = true;
