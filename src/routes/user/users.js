@@ -29,14 +29,12 @@ router.post('/sessions/book', sessionMiddleware.enforceSessionRest, function(req
 	enforceBookingRestrictions(res.locals.user.authLvl, maxSessions(res.locals.user.authLvl), res).then(function(data) {
 		session.student = res.locals.user;
 		session.booked = true;
-		Session.update(session).then(function(s){
-			console.log(s);
+		Session.update(session).then(function(ns){
 			res.json({success:{
 				message: "Successfully booked the session",
-				data: s
+				data: ns
 			}})
 		}, function(err) {
-			console.log("failure");
 			console.log(err);
 			res.status(500).json({error:{
 				message:"Error booking session"
