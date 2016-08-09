@@ -5,7 +5,7 @@ var sessionMiddleware = require("../service/sessionMiddleware");
 /* GET home page. */
 router.get('/', sessionMiddleware.sessionCheck, function(req, res, next) {
 	res.render('index', {
-		authLvl: res.locals.authLvl || 0,
+		authLvl: res.locals.user.authLvl || 0,
 		username: req.session.username
 	});
 });

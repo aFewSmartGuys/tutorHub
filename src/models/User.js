@@ -156,7 +156,7 @@ module.exports = {
 
 	findByUsername: function(username) {
 		return new Promise(function(resolve, reject) {
-			User.findOne({username:username}, {username:true,email:true,phone:true,_id:false}, function(err, usr) {
+			User.findOne({username:username}, {_id:false,username:true,email:true,phone:true,authLvl:true}, function(err, usr) {
 				if (err) {
 					console.log(err);
 					reject(err);

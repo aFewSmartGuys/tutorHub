@@ -6,13 +6,17 @@ var incorrectCredentials = {error:"Fake username bruh."};
 
 function enforceSession(req, res, next) {
 	if (req.session && req.session.username) {
-		User.getAuthLvl(req.session.username).then(function(authLvl) {
-			res.locals.authLvl = authLvl;
+		if (res.locals && res.locals.user) {
 			next();
-		}, function(msg) {
-			req.session.reset();
-			res.render("application/index", incorrectCredentials);
-		});
+		} else {
+			User.findByUsername(req.session.username).then(function(user) {
+				res.locals.user = user;
+				next();
+			}, function(msg) {
+				req.session.reset();
+				res.render("application/index", incorrectCredentials);
+			});
+		}
 	} else {
 		req.session.reset();
 		res.render("application/index", notAuthenticated);
@@ -21,13 +25,17 @@ function enforceSession(req, res, next) {
 
 function enforceSessionRest(req, res, next) {
 	if (req.session && req.session.username) {
-		User.getAuthLvl(req.session.username).then(function(authLvl) {
-			res.locals.authLvl = authLvl;
+		if (res.locals && res.locals.user) {
 			next();
-		}, function(msg) {
-			req.session.reset();
-			res.status(403).json(incorrectCredentials);
-		});
+		} else {
+			User.findByUsername(req.session.username).then(function(user) {
+				res.locals.user = user;
+				next();
+			}, function(msg) {
+				req.session.reset();
+				res.status(403).json(incorrectCredentials);
+			});
+		}
 	} else {
 		req.session.reset();
 		res.status(403).json(notAuthenticated);
@@ -35,7 +43,7 @@ function enforceSessionRest(req, res, next) {
 }
 
 function enforceAdminRest(req, res, next) {
-	if (res.locals.authLvl === User.authLevels.admin) {
+	if (res.locals.user.authLvl === User.authLevels.admin) {
 		next();
 	} else {
 		res.setHeader("Content-Type", "application/json");
@@ -44,7 +52,7 @@ function enforceAdminRest(req, res, next) {
 }
 
 function enforceAdmin(req, res, next) {
-	if (res.locals.authLvl === User.authLevels.admin) {
+	if (res.locals.user.authLvl === User.authLevels.admin) {
 		next();
 	} else {
 		res.render("application/index", insufficientPermissions);
@@ -53,13 +61,17 @@ function enforceAdmin(req, res, next) {
 
 function sessionCheck(req, res, next) {
 	if (req.session && req.session.username) {
-		User.getAuthLvl(req.session.username).then(function(authLvl) {
-			res.locals.authLvl = authLvl;
+		if (res.locals && res.locals.user) {
 			next();
-		}, function(msg) {
-			req.session.reset();
-			res.render("application/index", incorrectCredentials);
-		});
+		} else {
+			User.findByUsername(req.session.username).then(function(user) {
+				res.locals.user = user;
+				next();
+			}, function(msg) {
+				req.session.reset();
+				res.render("application/index", incorrectCredentials);
+			});
+		}
 	} else {
 		next();
 	}

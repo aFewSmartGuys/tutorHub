@@ -26,27 +26,6 @@ var Session = mongoose.model("Session", SessionSchema);
 
 module.exports = {
 
-	new: function(args) {
-		return new Promise(function(resolve, reject) {
-			var date = new Date();
-			var session = new Session({
-				date: args.date,
-				booked: args.booked,
-				tutor: args.tutor,
-				student: args.student
-			});
-			session.save(function(err, savedSession) {
-				if (err) reject(err);
-				if (savedSession) {
-					console.log(savedSession);
-					resolve("User created successfully.");
-				} else {
-					reject("error saving session");
-				}
-			});
-		});
-	},
-
 	insert: function(arr, tutor) {
 		return new Promise(function(resolve, reject) {
 			if (!arr.length) resolve([]);
@@ -119,6 +98,37 @@ module.exports = {
 			Session.remove({"_id":{"$in":arr}}, function(err, removed) {
 				if (err) {console.log(err);reject(err);}
 				resolve(removed);
+			});
+		});
+	},
+
+	getBookedByUser: function(username) {
+		return new Promise(function(resolve, reject) {
+			Session.find({"student.username":username,booked:true}, function(err, sessions) {
+				if (err) {
+					console.log(err);
+					reject(err);
+				} else {
+					resolve(sessions);
+				}
+			});
+		});
+	},
+
+	/**
+	 * Update/create a single session
+	 *
+	 */
+	update: function(s) {
+		return new Promise(function(resolve, reject) {
+			if (!s._id) reject("Session _id missing");
+			Session.findOneAndUpdate({_id:s._id},s,{upsert:true,returnNewDocument:true},function(err, ns) {
+				if (err) {
+					console.log(err);
+					reject(err);
+				} else {
+					resolve(ns);
+				}
 			});
 		});
 	}

@@ -11,9 +11,16 @@ function mainCtrl($scope, $http) {
 		$scope.days = rearrange(response.data);
 	});
 	$scope.bookSession = function(sesh) {
-		console.log("going to book:");
-		console.log(sesh);
-		// make post request to book the session
+		$http({
+			method: "POST",
+			url: "/user/sessions/book",
+			headers: {
+				"Content-Type":"application/json"
+			},
+			data: sesh
+		}).then(function(response) {
+			console.log(response.data);
+		});
 	};
 }
 
