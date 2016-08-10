@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,IAAK;EACJ,MAAM,EAAC,GAAG;EACV,OAAO,EAAC,GAAG;EACX,SAAS,EAAC,KAAK;EACf,OAAO,EAAC,IAAI;EACZ,SAAK;IACJ,IAAI,EAAC,CAAC;IACN,aAAa,EAAC,MAAM;IACpB,SAAS,EAAC,KAAK;IACf,gBAAO;MACN,KAAK,EAAC,GAAG;;AAQZ,SAAU;EACT,gBAAgB,EAAC,IAAI",
+"sources": ["../../sass/createSession.scss"],
+"names": [],
+"file": "createSession.css"
+}
