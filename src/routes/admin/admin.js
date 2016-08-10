@@ -29,7 +29,7 @@ router.get('/sessions', sessionMiddleware.enforceSessionRest, sessionMiddleware.
 
 router.get('/sessions/list/:tutor', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {
 	User.findByUsername(req.params.tutor).then(function(tutor) {
-		Session.getUpcoming(tutor).then(function(sessions) {
+		Session.getUpcoming(tutor.username).then(function(sessions) {
 			res.setHeader("Content-Type", "application/json");
 			res.json(sessions);
 		}, function(err) {

@@ -65,7 +65,7 @@ function createSessionCtrl($scope, $http) {
 		var toSave = $scope.days.map(function(s){return s.sessions;});
 		toSave = [].concat.apply([], toSave);
 		// keep new selections and old sessions to be removed
-		toSave = toSave.filter(function(s){return (s.select&&!s._id)||(!s.select&&s._id);});
+		toSave = toSave.filter(function(s){return ((s.select&&!s._id)||(!s.select&&s._id));});
 		$http({
 			method: "POST",
 			url: "/admin/sessions/update",

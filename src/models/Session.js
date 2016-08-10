@@ -66,7 +66,7 @@ module.exports = {
 				}
 			};
 			if (tutor) {
-				query.tutor = tutor;
+				query["tutor.username"] = tutor;
 			}
 			// important that we keep the _id because it is used in other when updating sessions
 			Session.find(query, function(err, sessions) {
