@@ -8,7 +8,11 @@
     align-content: center;
     max-width: 100px; }
     #cal .day .title {
-      color: red; }
+      color: red;
+      text-align: center; }
+    #cal .day .session {
+      text-align: center;
+      cursor: pointer; }
 
 .selected {
   background-color: gray; }
