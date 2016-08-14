@@ -26,8 +26,7 @@ router.post('/login', function(req, res, next) {
 		req.session.username = username;
 		// check the permission lvl
 		res.render('index', {
-			username: req.session.username,
-			authLvl: user.authLvl
+			user: user
 		});
 	}, function(responseText) {
 		req.session.reset();

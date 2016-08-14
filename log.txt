@@ -1,0 +1,134 @@
+diff --git a/src/public/templates/admin/sessions.html b/src/public/templates/admin/sessions.html
+index 01263c9..a6fa152 100644
+--- a/src/public/templates/admin/sessions.html
++++ b/src/public/templates/admin/sessions.html
+@@ -17,8 +17,8 @@
+         <td>{{session.date.toDateString()}}</td>
+         <td>{{session.date.toTimeString()}}</td>
+         <td>{{session.booked}}</td>
+-        <td>{{session.student||"Empty"}}</td>
+-        <td>{{session.tutor||"Empty"}}</td>
++        <td>{{session.student.username||"--"}}</td>
++        <td>{{session.tutor.username||"--"}}</td>
+       </tr>
+     <div ng-repeat="day in days">
+ 
+diff --git a/src/routes/index.js b/src/routes/index.js
+index ee98c6a..fdf4402 100644
+--- a/src/routes/index.js
++++ b/src/routes/index.js
+@@ -4,9 +4,10 @@ var sessionMiddleware = require("../service/sessionMiddleware");
+ 
+ /* GET home page. */
+ router.get('/', sessionMiddleware.sessionCheck, function(req, res, next) {
++	console.log("thisareatest");
++	console.log(!!res.locals&&!!res.locals.user?res.locals.user:null);
+ 	res.render('index', {
+-		authLvl: !!res.locals&&!!res.locals.user?res.locals.user.authLvl:0,
+-		username: req.session.username
++		user: !!res.locals&&!!res.locals.user?res.locals.user:null
+ 	});
+ });
+ 
+diff --git a/src/views/admin/dashboard.ejs b/src/views/admin/dashboard.ejs
+index 335818b..05c22ef 100644
+--- a/src/views/admin/dashboard.ejs
++++ b/src/views/admin/dashboard.ejs
+@@ -6,13 +6,67 @@
+ 	<script src="/js/admin/dashApp.js"></script>
+ 	<script src="/assets/angular-route.min.js"></script>
+ 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
++	<link rel="stylesheet" type="text/css" href="/stylesheets/admin/aDashboard.css">
+ </head>
+ <body ng-app="dashApp" ng-controller="mainCtrl">
+-	<a href="#/users">Users</a>
+-	<a href="#/sessions">View Sessions</a>
+-	<a href="#/createSession">Add Session</a>
+-	
+-	<div ng-view></div>
+-</table>
++	<div class="pure-menu menu-width">
++			<li class="pure-menu-item"><a href="#/users" class="pure-menu-link">Users</a></li>
++			<li class="pure-menu-item"><a href="#/sessions" class="pure-menu-link">View Sessions</a></li>
++			<li class="pure-menu-item"><a href="#/createSession" class="pure-menu-link">Add Session</a></li>
++
++	<div class="navbar-wrapper">
++      <div class="container">
++
++        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="top-nav">
++          <div class="container">
++            <div class="navbar-header">
++              <!-- Logo Starts -->
++              <a class="navbar-brand" id='logoContainer' href="#home"><img src="/images/HipsterGlassesDude.png" height="80px" style="margin-top: -30px"><span id='logo'>TutorHub</span></a>
++              <!-- #Logo Ends -->
++
++
++              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
++                <span class="sr-only">Toggle navigation</span>
++                <span class="icon-bar"></span>
++                <span class="icon-bar"></span>
++                <span class="icon-bar"></span>
++              </button>
++
++            </div>
++
++
++            <!-- Nav Starts -->
++            <div class="navbar-collapse  collapse">
++              <ul class="nav navbar-nav navbar-right">
++                 <li class="active scroll"><a href="#home">Home</a></li>
++                 <li class="scroll"><a href="#courses">Courses</a></li>
++                 <li class="scroll"><a href="#tutors">Tutors</a></li>
++                 <li class="scroll"><a href="#signUp">Sign Up</a></li>
++
++                 <% if (authLvl >= 3) { %> 
++                  <li><a href="/admin">Dashboard</a></li>
++                 <% } %>
++                 <%if (authLvl >= 2) { %>
++                  <li><a href="/user">Book a Session</a></li>
++                 <% } %>
++                 <% if (username) { %>
++                  <li><a>Welcome, <%= username %>.</a></li>
++                  <li><a href="/auth/logout">Logout</a></li>
++                 <% } else { %>
++                  <li><a href="/auth">Sign In</a></li>
++                 <% } %>
++              </ul>
++            </div>
++            <!-- #Nav Ends -->
++
++          </div>
++        </div>
++
++      </div>
++    </div>
++
++	<div  class="view-container" >
++		<div ng-view></div>
++	</div>
+ </body>
+ </html>
+\ No newline at end of file
+diff --git a/src/views/index.ejs b/src/views/index.ejs
+index af2a65b..ffb49b4 100644
+--- a/src/views/index.ejs
++++ b/src/views/index.ejs
+@@ -68,14 +68,14 @@
+                  <li class="scroll"><a href="#tutors">Tutors</a></li>
+                  <li class="scroll"><a href="#signUp">Sign Up</a></li>
+ 
+-                 <% if (authLvl >= 3) { %> 
++                 <% if (user && user.authLvl >= 3) { %>
+                   <li><a href="/admin">Dashboard</a></li>
+                  <% } %>
+-                 <%if (authLvl >= 2) { %>
++                 <%if (user) { %>
+                   <li><a href="/user">Book a Session</a></li>
+                  <% } %>
+-                 <% if (username) { %>
+-                  <li><a>Welcome, <%= username %>.</a></li>
++                 <% if (user && user.username) { %>
++                  <li><a>Welcome, <%= user.username %>.</a></li>
+                   <li><a href="/auth/logout">Logout</a></li>
+                  <% } else { %>
+                   <li><a href="/auth">Sign In</a></li>

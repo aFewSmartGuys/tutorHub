@@ -68,14 +68,14 @@
                  <li class="scroll"><a href="#tutors">Tutors</a></li>
                  <li class="scroll"><a href="#signUp">Sign Up</a></li>
 
-                 <% if (authLvl >= 3) { %> 
+                 <% if (user && user.authLvl >= 3) { %> 
                   <li><a href="/admin">Dashboard</a></li>
                  <% } %>
-                 <%if (authLvl >= 2) { %>
+                 <%if (user && user.authLvl >= 2) { %>
                   <li><a href="/user">Book a Session</a></li>
                  <% } %>
-                 <% if (username) { %>
-                  <li><a>Welcome, <%= username %>.</a></li>
+                 <% if (user && user.username) { %>
+                  <li><a>Welcome, <%= user.username %>.</a></li>
                   <li><a href="/auth/logout">Logout</a></li>
                  <% } else { %>
                   <li><a href="/auth">Sign In</a></li>

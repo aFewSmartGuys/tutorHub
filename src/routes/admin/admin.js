@@ -6,7 +6,9 @@ var sessionMiddleware = require('../../service/sessionMiddleware');
 
 /* GET home page. */
 router.get('/', sessionMiddleware.enforceSession, sessionMiddleware.enforceAdmin, function(req, res, next) {
-	res.render('admin/dashboard');
+	res.render('admin/dashboard', {
+		user: res.locals.user
+	});
 });
 
 router.get('/users', sessionMiddleware.enforceSessionRest, sessionMiddleware.enforceAdminRest, function(req, res, next) {

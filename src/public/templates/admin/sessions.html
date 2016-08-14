@@ -17,8 +17,8 @@
         <td>{{session.date.toDateString()}}</td>
         <td>{{session.date.toTimeString()}}</td>
         <td>{{session.booked}}</td>
-        <td>{{session.student||"Empty"}}</td>
-        <td>{{session.tutor||"Empty"}}</td>
+        <td>{{session.student.username||"--"}}</td>
+        <td>{{session.tutor.username||"--"}}</td>
       </tr>
     <div ng-repeat="day in days">
 
