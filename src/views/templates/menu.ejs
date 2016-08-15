@@ -1,4 +1,7 @@
 
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <!-- Google fonts -->
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -10,6 +13,8 @@
 
 <!-- animate.css -->
 <link rel="stylesheet" href="/assets/animate/animate.css" />
+<link rel="stylesheet" href="/assets/animate/set.css" />
+
 <link rel="stylesheet" href="/assets/style.css">
 
 <div class="topbar animated fadeInLeftBig"></div>
@@ -44,7 +49,7 @@
                   <li class="scroll"><a href="#tutors">Tutors</a></li>
                 <% } %>
 
-                <%- menuOpts.generateCustomTags() %>
+                <%- menuOpts.generateCustomLinks() %>
 
                  <% if (user && user.username) { %>
                   <li><a>Welcome, <%= user.username %>.</a></li>

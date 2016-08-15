@@ -11,8 +11,9 @@ router.get('/', sessionMiddleware.enforceSession, sessionMiddleware.enforceAdmin
 		user: res.locals.user,
 		menuOpts: new MenuOptions({
 			custom: [
-				{value:'Dashboard',href:'/admin'},
-				{value:'Booking',href:'/user'},
+				{value:'Users',href:'#users'},
+				{value:'Sessions',href:'#sessions'},
+				{value:'Create Sessions',href:'#sessions/create'},
 			]
 		})
 	});

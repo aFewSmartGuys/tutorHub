@@ -12,7 +12,7 @@ app.config(function($routeProvider) {
 	}).when("/sessions", {
 		templateUrl: "/templates/admin/sessions.html",
 		controller: "sessionCtrl"
-	}).when("/createSession", {
+	}).when("/sessions/create", {
 		templateUrl: "/templates/admin/createSession.html",
 		controller: "createSessionCtrl"
 	});
@@ -43,7 +43,6 @@ function sessionCtrl($scope, $http) {
 			s.date = new Date(s.date);
 			return s;
 		});
-		console.log("");
 	});
 }
 

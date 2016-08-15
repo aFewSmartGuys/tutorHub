@@ -5,18 +5,26 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="/js/admin/dashApp.js"></script>
 	<script src="/assets/angular-route.min.js"></script>
-	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/admin/aDashboard.css">
 </head>
 <body ng-app="dashApp" ng-controller="mainCtrl">
-			<li><a href="#/users">Users</a></li>
-			<li><a href="#/sessions">View Sessions</a></li>
-			<li><a href="#/createSession">Add Session</a></li>
 
     <%- include ../templates/menu.ejs %>
-
-	<div  class="view-container">
+    <div class="menu-spacer"></div>
+	<div class="view-container">
 		<div ng-view></div>
 	</div>
+
+	<script type="text/javascript">
+		var spacerDiv = document.querySelector(".menu-spacer");
+		var menu = document.querySelector(".navbar");
+		var resizeSpacer = function() {spacerDiv.style.height = 20+menu.offsetHeight + "px";};
+
+		window.addEventListener("resize", function() {
+			resizeSpacer();
+		});
+
+		resizeSpacer();
+	</script>
 </body>
 </html>

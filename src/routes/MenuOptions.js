@@ -5,18 +5,19 @@ function MenuOptions(args) {
 	this.l1 = [{value:'Booking',href:'/user'}];
 	
 	this.homepage = args.homepage || false;
-	this.custom = args.custom || this.getCustomOpts(args.authLvl);
+	this.links = args.custom instanceof Array ?
+		args.custom.concat(this.genCustomOpts(args.authLvl)) : this.genCustomOpts(args.authLvl);
 }
 
-MenuOptions.prototype.generateCustomTags = function() {
+MenuOptions.prototype.generateCustomLinks = function() {
 	var htmlStr = "";
-	this.custom.forEach(function(opt) {
+	this.links.forEach(function(opt) {
 		htmlStr += "<li><a href='" + opt.href + "'>" + opt.value + "</a></li>";
 	});
 	return htmlStr;
 };
 
-MenuOptions.prototype.getCustomOpts = function(authLvl) {
+MenuOptions.prototype.genCustomOpts = function(authLvl) {
 	// 0 =  min authlvl
 	// 3 = max authlvl
 	// TODO: get min and max as variables
