@@ -4,10 +4,12 @@
 <div id="cal">
 	<div class="day" ng-repeat="day in days">
 		<div class="title">{{day.date | date:'EEE, d'}}</div>
-		<div class="session" ng-class="{selected: session.select}" ng-repeat="session in day.sessions" ng-click="sessionClick(session)">{{session.date | date:'hh:mm'}}</div>
+		<div class="session panel" ng-class="{selected: session.select,booked:session.booked}" ng-repeat="session in day.sessions" ng-click="sessionClick(session)">
+		{{session.date | date:'hh:mm'}}
+		</div>
 	</div>
 </div>
 
 <div id="settings">
-	<button class="btn btn-info" ng-click="save()">Save</button>
+	<button class="btn btn-success" ng-click="save()">Save</button>
 </div>
