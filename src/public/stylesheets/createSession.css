@@ -1,12 +1,10 @@
 #cal {
   margin: 0px;
   padding: 0px;
-  max-width: 700px;
-  display: flex; }
+  display: flex;
+  align-content: center; }
   #cal .day {
-    flex: 1;
-    align-content: center;
-    max-width: 100px; }
+    flex: 1; }
     #cal .day .title {
       color: red;
       text-align: center; }

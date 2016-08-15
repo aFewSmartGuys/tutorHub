@@ -13,7 +13,7 @@
     <tbody>
 
     </tbody>
-      <tr ng-class="{warning: session.booked}" ng-repeat="session in sessions">
+      <tr ng-class="{danger: session.booked}" ng-repeat="session in sessions">
         <td>{{session.date.toDateString()}}</td>
         <td>{{session.date.toTimeString()}}</td>
         <td>{{session.booked}}</td>
