@@ -38,21 +38,19 @@
             <!-- Nav Starts -->
             <div class="navbar-collapse  collapse">
               <ul class="nav navbar-nav navbar-right">
-                 <li class="active scroll"><a href="#home">Home</a></li>
-                 <li class="scroll"><a href="#courses">Courses</a></li>
-                 <li class="scroll"><a href="#tutors">Tutors</a></li>
-                 <li class="scroll"><a href="#signUp">Sign Up</a></li>
+                <% if (menuOpts.homepage) { %>
+                  <li class="active scroll"><a href="#home">Home</a></li>
+                  <li class="scroll"><a href="#courses">Courses</a></li>
+                  <li class="scroll"><a href="#tutors">Tutors</a></li>
+                <% } %>
 
-                 <% if (user && user.authLvl >= 3) { %> 
-                  <li><a href="/admin">Dashboard</a></li>
-                 <% } %>
-                 <%if (user && user.authLvl >= 2) { %>
-                  <li><a href="/user">Book a Session</a></li>
-                 <% } %>
+                <%- menuOpts.generateCustomTags() %>
+
                  <% if (user && user.username) { %>
                   <li><a>Welcome, <%= user.username %>.</a></li>
                   <li><a href="/auth/logout">Logout</a></li>
                  <% } else { %>
+                  <% if (menuOpts.homepage) { %> <li class="scroll"><a href="#signUp">Sign Up</a></li> <% } %>
                   <li><a href="/auth">Sign In</a></li>
                  <% } %>
               </ul>

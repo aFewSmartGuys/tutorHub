@@ -3,11 +3,18 @@ var router = express.Router();
 var User = require('../../models/User');
 var Session = require('../../models/Session');
 var sessionMiddleware = require('../../service/sessionMiddleware');
+var MenuOptions = require('../MenuOptions');
 
 /* GET home page. */
 router.get('/', sessionMiddleware.enforceSession, sessionMiddleware.enforceAdmin, function(req, res, next) {
 	res.render('admin/dashboard', {
-		user: res.locals.user
+		user: res.locals.user,
+		menuOpts: new MenuOptions({
+			custom: [
+				{value:'Dashboard',href:'/admin'},
+				{value:'Booking',href:'/user'},
+			]
+		})
 	});
 });
 

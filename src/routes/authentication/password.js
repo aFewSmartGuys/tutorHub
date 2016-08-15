@@ -1,17 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../../models/User');
+var MenuOptions = require('../MenuOptions');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	res.render('application/index');
+	res.render('application/index', {
+		menuOpts: new MenuOptions({homepage:true})
+	});
 });
 
 router.get('/logout', function(req, res, next) {
 	req.session.reset();
 	res.render('index', {
-		authLvl: 0,
-		username: null
+		user: null,
+		menuOpts: new MenuOptions({homepage:true})
 	});
 });
 
@@ -26,7 +29,11 @@ router.post('/login', function(req, res, next) {
 		req.session.username = username;
 		// check the permission lvl
 		res.render('index', {
-			user: user
+			user: user,
+			menuOpts: new MenuOptions({
+				homepage: true,
+				authLvl: user.authLvl
+			})
 		});
 	}, function(responseText) {
 		req.session.reset();
