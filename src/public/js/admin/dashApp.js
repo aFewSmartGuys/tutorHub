@@ -59,6 +59,7 @@ function createSessionCtrl($scope, $http) {
 	$scope.sessionClick = function(session) {
 		if (session.booked) {
 			//make toastr
+			toastr.error("You can't delete a booked session, bro.", "Erroneous Click");
 			return;
 		}
 		session.select = session.select?false:true;
@@ -69,6 +70,10 @@ function createSessionCtrl($scope, $http) {
 		toSave = [].concat.apply([], toSave);
 		// keep new selections and old sessions to be removed
 		toSave = toSave.filter(function(s){return ((s.select&&!s._id)||(!s.select&&s._id))&&!s.booked;});
+		if (!toSave.length) {
+			toastr.warning("Do something before you try to save, dude.", "No Data");
+			return;
+		}
 		$http({
 			method: "POST",
 			url: "/admin/sessions/update",
@@ -78,10 +83,10 @@ function createSessionCtrl($scope, $http) {
 			data: toSave
 		}).then(function(response) {
 			// update the sessions
-			// add the mongo _id to newly created sessions
-			// remove the mongo _id from deleted sessions
-			var n = response.data.in,
-				r = response.data.re;
+			// add the mongo _id to Newly created sessions
+			// Remove the mongo _id from deleted sessions
+			var n = response.data.in,//sert
+				r = response.data.re;//move
 
 			var sessions = $scope.days.map(function(s){return s.sessions;});
 			var flattened = [];
@@ -108,6 +113,7 @@ function createSessionCtrl($scope, $http) {
 					return false;
 				});
 			});
+			toastr.success("Sessions Updated");
 		});
 	};
 

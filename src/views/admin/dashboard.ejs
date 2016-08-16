@@ -2,10 +2,14 @@
 <html>
 <head>
 	<title>Dashboard</title>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="/js/admin/dashApp.js"></script>
 	<script src="/assets/angular-route.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/admin/aDashboard.css">
+	<link href="/assets/toastr/toastr.min.css" rel="stylesheet"/>
+	<script src="/assets/toastr/toastr.min.js"></script>
+
 </head>
 <body ng-app="dashApp" ng-controller="mainCtrl">
 
@@ -16,6 +20,10 @@
 	</div>
 
 	<script type="text/javascript">
+
+		//set toastr options
+		toastr.options.escapeHtml = true;
+
 		var spacerDiv = document.querySelector(".menu-spacer");
 		var menu = document.querySelector(".navbar");
 		var resizeSpacer = function() {spacerDiv.style.height = 20+menu.offsetHeight + "px";};
