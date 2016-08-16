@@ -14,8 +14,7 @@
 <body ng-app="dashApp" ng-controller="mainCtrl">
 
     <%- include ../templates/menu.ejs %>
-    <div class="menu-spacer"></div>
-	<div class="view-container">
+    <div class="view-container">
 		<div ng-view></div>
 	</div>
 
@@ -23,16 +22,6 @@
 
 		//set toastr options
 		toastr.options.escapeHtml = true;
-
-		var spacerDiv = document.querySelector(".menu-spacer");
-		var menu = document.querySelector(".navbar");
-		var resizeSpacer = function() {spacerDiv.style.height = 20+menu.offsetHeight + "px";};
-
-		window.addEventListener("resize", function() {
-			resizeSpacer();
-		});
-
-		resizeSpacer();
 	</script>
 </body>
 </html>

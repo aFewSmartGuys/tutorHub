@@ -5,9 +5,17 @@ var router = express.Router();
 var User = require('../../models/User');
 var Session = require('../../models/Session');
 var sessionMiddleware = require("../../service/sessionMiddleware");
+var MenuOptions = require("../MenuOptions");
 
 router.get('/', sessionMiddleware.enforceSession, function(req, res, next) {
-  res.render('application/booking');
+	var user = res.locals.user;
+	res.render('application/booking', {
+		user: user,
+		menuOpts: new MenuOptions({
+			authLvl: user?user.authLvl:0,
+			homepage:false
+		})
+	});
 });
 
 router.get('/sessions', sessionMiddleware.enforceSessionRest, function(req, res, next) {

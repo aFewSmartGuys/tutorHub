@@ -68,3 +68,18 @@
       </div>
     </div>
 <!-- #Header Starts -->
+
+<div class="menu-spacer"></div>
+
+<script type="text/javascript">
+  <% if (!menuOpts.homepage) { %>
+    var spacerDiv = document.querySelector(".menu-spacer");
+    var menu = document.querySelector(".navbar");
+    var resizeSpacer = function() {spacerDiv.style.height = 20+menu.offsetHeight + "px";};
+  
+    window.addEventListener("resize", function() {
+      resizeSpacer();
+    });
+    resizeSpacer();
+  <% } %>
+</script>
