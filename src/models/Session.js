@@ -1,4 +1,5 @@
 var mongoose = require("mongoose"),
+	promise = require('promise'),
 	uniqueValidator = require("mongoose-unique-validator");
 
 var SessionSchema = new mongoose.Schema({
@@ -27,7 +28,7 @@ var Session = mongoose.model("Session", SessionSchema);
 module.exports = {
 
 	insert: function(arr, tutor) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			if (!arr.length) resolve([]);
 			var sessions = arr.filter(function(s) {
 				delete s.select;
@@ -46,7 +47,7 @@ module.exports = {
 	},
 
 	getAll: function() {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			Session.find({}, function(err, sessions) {
 				if (err) {
 					console.log(err);
@@ -58,7 +59,7 @@ module.exports = {
 	},
 
 	getUpcoming: function(tutor) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			var today = new Date();
 			var query = { 
 				"date": {
@@ -82,7 +83,7 @@ module.exports = {
 	 * @param e Date the end date
 	 */
 	getTimeRange: function(b,e) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			Session.find({ "date": { "$gte": b, "$lt": e } }, function(err, sessions) {
 				if (err) { console.log(err);reject(err); }
 				resolve(sessions);
@@ -94,7 +95,7 @@ module.exports = {
 	 * @param arr array of mongo _id objects
 	 */
 	remove: function(arr) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			Session.remove({"_id":{"$in":arr}}, function(err, removed) {
 				if (err) {console.log(err);reject(err);}
 				resolve(removed);
@@ -103,7 +104,7 @@ module.exports = {
 	},
 
 	getBookedByUser: function(username) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			Session.find({"student.username":username,booked:true}, function(err, sessions) {
 				if (err) {
 					console.log(err);
@@ -120,7 +121,7 @@ module.exports = {
 	 *
 	 */
 	update: function(s) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			if (!s._id) reject("Session _id missing");
 			Session.findOneAndUpdate({_id:s._id},s,{upsert:true,returnNewDocument:true},function(err, ns) {
 				if (err) {

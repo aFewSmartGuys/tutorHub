@@ -7,9 +7,11 @@ var MenuOptions = require('../MenuOptions');
 
 /* GET home page. */
 router.get('/', sessionMiddleware.enforceSession, sessionMiddleware.enforceAdmin, function(req, res, next) {
+	var user = res.locals&&res.locals.user?res.locals.user:null;
 	res.render('admin/dashboard', {
-		user: res.locals.user,
+		user: user,
 		menuOpts: new MenuOptions({
+			authLvl: user?user.authLvl:0,
 			custom: [
 				{value:'Users',href:'#users'},
 				{value:'Sessions',href:'#sessions'},

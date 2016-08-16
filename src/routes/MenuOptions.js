@@ -2,7 +2,7 @@
 
 function MenuOptions(args) {
 	this.l3 = [{value:'Dashboard',href:'/admin'}];
-	this.l1 = [{value:'Booking',href:'/user'}];
+	this.l0 = [{value:'Booking',href:'/user'}];
 	
 	this.homepage = args.homepage || false;
 	this.links = args.custom instanceof Array ?

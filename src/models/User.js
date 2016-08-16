@@ -1,5 +1,6 @@
 var mongoose = require("mongoose"),
 	uniqueValidator = require("mongoose-unique-validator"),
+	promise = require('promise'),
 	bcrypt = require("bcrypt"),
 	SALT_WORK_FACTOR = 12;
 
@@ -54,7 +55,7 @@ module.exports = {
 	 * @param args: username, password, email, phone
 	 */
 	register: function(args) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			var date = new Date();
 			var lastLogin = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
 			var user = new User({
@@ -78,7 +79,7 @@ module.exports = {
 
 	/* args: username password */
 	login: function(args) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			User.findOne({username:args.username}, function(err, user) {
 				if (err) reject(err);
 				if (user) {
@@ -107,7 +108,7 @@ module.exports = {
 	},
 
 	changePassword: function(uname, oldp, newp) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			User.findOne({username: uname}, function(err, user) {
 				if (err) reject(err);
 				if (user) {
@@ -131,7 +132,7 @@ module.exports = {
 	},
 
 	getAll: function() {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			User.find({}, { password: false, _id: false, __v: false }, function(err, content) {
 				if (err) {
 					console.log(err);
@@ -143,7 +144,7 @@ module.exports = {
 	},
 
 	getAuthLvl: function(username) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			User.findOne({username: username}, {authLvl:true}, function(err, usr) {
 				if (err) {
 					console.log(err);
@@ -155,7 +156,7 @@ module.exports = {
 	},
 
 	findByUsername: function(username) {
-		return new Promise(function(resolve, reject) {
+		return new promise(function(resolve, reject) {
 			User.findOne({username:username}, {_id:false,username:true,email:true,phone:true,authLvl:true}, function(err, usr) {
 				if (err) {
 					console.log(err);

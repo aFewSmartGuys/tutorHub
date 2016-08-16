@@ -45,9 +45,9 @@ router.post('/login', function(req, res, next) {
 /* POST register a user */
 router.post('/register', function(req, res, next) {
 	var body = req.body;
-	if (body.password !== body.password2) {
-		res.json({error: 'Passwords do not match.'});
-	} else {
+	if (body.password === body.password2 && verifyUserAttrs(body)) {
+		console.log(verifyUserAttrs(body));
+		console.log(body);
 		User.register({
 			username: body.username,
 			password: body.password,
@@ -56,16 +56,37 @@ router.post('/register', function(req, res, next) {
 		}).then(function(user) {
 			req.session.reset();
 			req.session.username = body.username;
-			res.render('index', {
-				success:responseText,
-				username: req.session.username,
-				authLvl: user.authLvl
-			});
+			res.send("User Created");
 		}, function(err) {
-			console.log(err);
-			res.json({error:err});
+			res.status(500).json({error:err});
 		});
+	} else {
+		res.status(400).send("Invalid or missing fields");
 	}
 });
+
+function verifyUserAttrs(user) {
+	if (user.hasOwnProperty('username') &&
+		user.hasOwnProperty('password') &&
+		user.hasOwnProperty('email') &&
+		user.hasOwnProperty('phone')) {
+		if (user.username.length >= 5 &&
+			user.password.length >= 5 &&
+			valEmail(user.email) &&
+			valPhone(user.phone)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function valEmail(e) {
+	return e.match(/(\.|[a-zA-Z0-9])+\@[a-zA-Z0-9]+\.[a-zA-Z]+/)[0].length === e.length;
+}
+
+function valPhone(p) {
+	return p.match(/[0-9]+/)[0].length === p.length &&
+			p.length === 10;
+}
 
 module.exports = router;

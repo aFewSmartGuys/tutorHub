@@ -8,28 +8,12 @@
 	<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" media="screen" href="/assets/font-awesome.min.css">
 	<link href="/stylesheets/login.css" rel="stylesheet">
-
-	<!-- Google fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:600' rel='stylesheet' type='text/css'>
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
-
-	<!-- font awesome -->
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" />
-
-	<!-- animate.css -->
-	<link rel="stylesheet" href="/assets/animate/animate.css" />
-	<link rel="stylesheet" href="/assets/animate/set.css" />
-
-	<!-- gallery -->
-	<link rel="stylesheet" href="/assets/gallery/blueimp-gallery.min.css">
+	<!-- toastr jquery -->
+	<script src="/assets/jquery.js"></script>
+	<link rel="stylesheet" type="text/css" href="/assets/toastr/toastr.min.css">
+	<script type="text/javascript" src="/assets/toastr/toastr.min.js"></script>
 
 	<!-- favicon -->
-
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
@@ -147,13 +131,13 @@
 		<div id="registerForm">
 	    	<h4>Register</h4>
 	    	<hr/>
-			<form action="/auth/register" method="POST">
+			<form method="POST">
 				<input type="text" class="form-control" name="username" placeholder="Username" required>
 				<input type="password" class="form-control" name="password" placeholder="Password" required>
 				<input type="password" class="form-control" name="password2" placeholder="Re-Type Password" required>
 				<input type="email" class="form-control" name="email" placeholder="Email" required>
 				<input type="phone" class="form-control" name="phone" placeholder="Phone Number" required>
-				<button type="submit" class="formButton btn">Register</button>
+				<button id="regbtn" type="submit" class="formButton btn">Register</button>
 			</form>
 			<a class="pageTransitionLink" id="signInTransitionLink">Sign In</a>
 		</div>
@@ -162,6 +146,34 @@
 
 
 <script>
+	toastr.options.escapeHtml = true;
+	// form submission
+	document.getElementById("regbtn").addEventListener("click", function(e) {
+		e.preventDefault();
+		var form = $("#registerForm form")[0];
+		var data = {};
+		[].forEach.call(form.elements, function(inp) {
+			data[inp.name] = inp.value;
+		});
+		$.post( "/auth/register", data)
+			.done(function(res) {
+				toastr.success("User created.");
+				window.location = "/";
+			}).fail(function(res) {
+				var info;
+				try {
+					info = JSON.parse(res.responseText);
+				} catch (e) {}
+
+				if (info && info.error && info.error.errors) {
+					for (let err in info.error.errors) {
+						toastr.error(err.charAt(0).toUpperCase() + err.slice(1) + ": " + info.error.errors[err].value + " is already taken.");
+					}
+				} else {
+					toastr.error(res.responseText);
+				}
+			});
+	});
 	document.getElementById('registerTransitionLink').addEventListener('click', function(){
 		var signInPage 	 = document.getElementById('signInPage');
 		var registerPage = document.getElementById('registerPage');

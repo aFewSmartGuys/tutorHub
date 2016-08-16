@@ -15,7 +15,7 @@ app.config(function($routeProvider) {
 	}).when("/sessions/create", {
 		templateUrl: "/templates/admin/createSession.html",
 		controller: "createSessionCtrl"
-	});
+	}).otherwise({redirectTo:'/sessions'});
 });
 
 function mainCtrl($scope, $route, $routeParams, $location) {
