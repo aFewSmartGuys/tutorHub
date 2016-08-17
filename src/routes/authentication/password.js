@@ -5,7 +5,7 @@ var MenuOptions = require('../MenuOptions');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	res.render('application/index', {
+	res.render('application/portal', {
 		menuOpts: new MenuOptions({homepage:true})
 	});
 });
@@ -28,12 +28,9 @@ router.post('/login', function(req, res, next) {
 		req.session.reset();
 		req.session.username = username;
 		// check the permission lvl
-		res.render('index', {
-			user: user,
-			menuOpts: new MenuOptions({
-				homepage: true,
-				authLvl: user.authLvl
-			})
+		res.status(200).json({
+			status:"success",
+			message:"Congrats, you done logged in"
 		});
 	}, function(responseText) {
 		req.session.reset();
@@ -56,7 +53,11 @@ router.post('/register', function(req, res, next) {
 		}).then(function(user) {
 			req.session.reset();
 			req.session.username = body.username;
-			res.send("User Created");
+			res.setHeader("Content-Type", "application/json");
+			res.status(200).json({
+				status:"success",
+				message:"Congrats you done registered"
+			});
 		}, function(err) {
 			res.status(500).json({error:err});
 		});

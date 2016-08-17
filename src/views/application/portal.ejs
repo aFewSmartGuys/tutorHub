@@ -118,7 +118,7 @@
 						<input type="password" class="form-control" name="password" placeholder="Password" background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" autocomplete="off" required>
 	                </div>
 				</div>
-				<button type="submit" class="formButton btn">Sign In</button>
+				<button id="logbtn" type="submit" class="formButton btn">Sign In</button>
 			</form>
 	    	<a class="pageTransitionLink" id="registerTransitionLink">Register</a>
 		</div>
@@ -129,8 +129,8 @@
 	<div id="registerPage">
 
 		<div id="registerForm">
-	    	<h4>Register</h4>
-	    	<hr/>
+			<h4>Register</h4>
+			<hr/>
 			<form method="POST">
 				<input type="text" class="form-control" name="username" placeholder="Username" required>
 				<input type="password" class="form-control" name="password" placeholder="Password" required>
@@ -147,7 +147,24 @@
 
 <script>
 	toastr.options.escapeHtml = true;
-	// form submission
+	// login form submission
+	document.getElementById("logbtn").addEventListener("click", function(e) {
+		e.preventDefault();
+		var form = $("#signInForm form")[0];
+		var data = {};
+		[].forEach.call(form.elements, function(inp) {
+			data[inp.name] = inp.value
+		});
+		$.post("/auth/login", data)
+			.done(function(res){
+				toastr.success(res.message);
+				window.location = window.location.pathname.startsWith("/auth") ? "/" : window.location.pathname;
+			})
+			.fail(function(res) {
+
+			});
+	});
+	// register form submission
 	document.getElementById("regbtn").addEventListener("click", function(e) {
 		e.preventDefault();
 		var form = $("#registerForm form")[0];
@@ -155,7 +172,7 @@
 		[].forEach.call(form.elements, function(inp) {
 			data[inp.name] = inp.value;
 		});
-		$.post( "/auth/register", data)
+		$.post("/auth/register", data)
 			.done(function(res) {
 				toastr.success("User created.");
 				window.location = "/";

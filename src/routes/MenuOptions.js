@@ -1,5 +1,12 @@
 'use strict';
-
+/**
+ * 
+ * args: custom:[], dropdown{title:"",opts:[]}, homepage:bool
+ *
+ *
+ *
+ *
+ */
 function MenuOptions(args) {
 	this.l3 = [{value:'Dashboard',href:'/admin'}];
 	this.l0 = [{value:'Booking',href:'/user'}];
@@ -17,6 +24,11 @@ MenuOptions.prototype.generateCustomLinks = function() {
 	return htmlStr;
 };
 
+/**
+ * gets all of the premade options for a user according to their authentication level
+ * @param authLvl Integer >=0 && <=3
+ * @return Array of options
+ */
 MenuOptions.prototype.genCustomOpts = function(authLvl) {
 	// 0 =  min authlvl
 	// 3 = max authlvl

@@ -14,12 +14,12 @@ function enforceSession(req, res, next) {
 				next();
 			}, function(msg) {
 				req.session.reset();
-				res.render("application/index", incorrectCredentials);
+				res.render("application/portal", incorrectCredentials);
 			});
 		}
 	} else {
 		req.session.reset();
-		res.render("application/index", notAuthenticated);
+		res.render("application/portal", notAuthenticated);
 	}
 }
 
@@ -55,7 +55,7 @@ function enforceAdmin(req, res, next) {
 	if (res.locals.user.authLvl === User.authLevels.admin) {
 		next();
 	} else {
-		res.render("application/index", insufficientPermissions);
+		res.render("application/portal", insufficientPermissions);
 	}
 }
 
@@ -69,7 +69,7 @@ function sessionCheck(req, res, next) {
 				next();
 			}, function(msg) {
 				req.session.reset();
-				res.render("application/index", incorrectCredentials);
+				res.render("application/portal", incorrectCredentials);
 			});
 		}
 	} else {
