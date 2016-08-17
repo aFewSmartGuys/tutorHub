@@ -40,6 +40,7 @@
                 <% } %>
 
                 <%- menuOpts.generateLinks() %>
+                <%- menuOpts.generateDropdowns() %>
 
                  <% if (user && user.username) { %>
                   <li><a>Welcome, <%= user.username %>.</a></li>
