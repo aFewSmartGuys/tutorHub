@@ -13,6 +13,7 @@
       cursor: pointer; }
 
 .selected {
-  background-color: gray; }
+  background-color: #006400; }
 
-/*# sourceMappingURL=createSession.css.map */
+.booked {
+  background-color: red; }

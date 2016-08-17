@@ -74,7 +74,7 @@ MenuOptions.prototype.genCustomOpts = function(authLvl) {
 function createDropdown(dd) {
 	if (dd.hasOwnProperty('title')&&dd.hasOwnProperty('opts')) {
 		if (dd.opts instanceof Array) {
-			let beg = "<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>"+dd.title+
+			let beg = "<li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown'>"+dd.title+
 				"<span class='caret'></span></a><ul class='dropdown-menu'>";
 			let end = "</ul></li>";
 			dd.opts.forEach(function(o) {
