@@ -12,11 +12,14 @@ router.get('/', sessionMiddleware.enforceSession, sessionMiddleware.enforceAdmin
 		user: user,
 		menuOpts: new MenuOptions({
 			authLvl: user?user.authLvl:0,
-			custom: [
-				{value:'Users',href:'#users'},
-				{value:'Sessions',href:'#sessions'},
-				{value:'Create Sessions',href:'#sessions/create'},
-			]
+			dropdowns: [{
+				title:"Admin",
+				opts: [
+					{value:'Users',href:'#users'},
+					{value:'Sessions',href:'#sessions'},
+					{value:'Create Sessions',href:'#sessions/create'},
+				]
+			}]
 		})
 	});
 });

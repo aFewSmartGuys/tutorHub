@@ -6,15 +6,14 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="/js/admin/dashApp.js"></script>
 	<script src="/assets/angular-route.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/admin/aDashboard.css">
 	<link href="/assets/toastr/toastr.min.css" rel="stylesheet"/>
 	<script src="/assets/toastr/toastr.min.js"></script>
 
 </head>
 <body ng-app="dashApp" ng-controller="mainCtrl">
 
-    <%- include ../templates/menu.ejs %>
-    <div class="view-container">
+		<%- include ../templates/haxorMenu.ejs %>
+		<div class="view-container">
 		<div ng-view></div>
 	</div>
 

@@ -49,7 +49,7 @@
                   <li class="scroll"><a href="#tutors">Tutors</a></li>
                 <% } %>
 
-                <%- menuOpts.generateCustomLinks() %>
+                <%- menuOpts.generateLinks() %>
 
                  <% if (user && user.username) { %>
                   <li><a>Welcome, <%= user.username %>.</a></li>
@@ -76,7 +76,7 @@
     var spacerDiv = document.querySelector(".menu-spacer");
     var menu = document.querySelector(".navbar");
     var resizeSpacer = function() {spacerDiv.style.height = 20+menu.offsetHeight + "px";};
-  
+
     window.addEventListener("resize", function() {
       resizeSpacer();
     });
