@@ -34,8 +34,10 @@ router.post('/login', function(req, res, next) {
 		});
 	}, function(responseText) {
 		req.session.reset();
-		console.log(responseText);
-		res.status(400).json({error: 'error logging in.'});
+		res.status(400).json({
+			status:"error",
+			message:responseText
+		});
 	});
 });
 
@@ -43,8 +45,6 @@ router.post('/login', function(req, res, next) {
 router.post('/register', function(req, res, next) {
 	var body = req.body;
 	if (body.password === body.password2 && verifyUserAttrs(body)) {
-		console.log(verifyUserAttrs(body));
-		console.log(body);
 		User.register({
 			username: body.username,
 			password: body.password,

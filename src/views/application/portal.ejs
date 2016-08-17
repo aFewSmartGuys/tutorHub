@@ -157,11 +157,12 @@
 		});
 		$.post("/auth/login", data)
 			.done(function(res){
+				console.log(res);
 				toastr.success(res.message);
 				window.location = window.location.pathname.startsWith("/auth") ? "/" : window.location.pathname;
 			})
 			.fail(function(res) {
-
+				toastr.error(res.responseJSON.message);
 			});
 	});
 	// register form submission

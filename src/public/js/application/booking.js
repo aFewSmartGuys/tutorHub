@@ -19,7 +19,7 @@ function mainCtrl($scope, $http) {
 			},
 			data: sesh
 		}).then(function(response) {
-			console.log(response.data);
+			toastr.success("Session booked", response);
 		});
 	};
 }

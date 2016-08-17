@@ -6,12 +6,15 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="/js/application/booking.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/booking.css">
+    <script src="/assets/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="/assets/toastr/toastr.min.css">
+    <script type="text/javascript" src="/assets/toastr/toastr.min.js"></script>
   </head>
   <body>
   <%- include ../templates/menu.ejs %>
   <div class="container">
-     <div class="page-header text-center">       
-      <h1>Sessions</h1>        
+     <div class="page-header text-center">
+      <h1> Available Sessions</h1>
     </div>
     <div class="row times" ng-app="scheduleApp" ng-controller="mainCtrl">
       <div class="col-md-2 text-center" ng-repeat="day in days">
