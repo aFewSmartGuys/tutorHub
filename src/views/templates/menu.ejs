@@ -6,7 +6,11 @@
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<%- include layouts/haxor %>
+<% if (user && user.pref) { %>
+    <%- include("layouts/"+user.pref) %>
+<% } else { %>
+    <%- include layouts/main %>
+<% } %>
 
   <!-- Header Starts -->
 <div class="navbar-wrapper">
@@ -16,7 +20,7 @@
           <div class="container">
             <div class="navbar-header">
               <!-- Logo Starts -->
-              <a class="navbar-brand" id='logoContainer' href="#home"><img src="/images/HipsterGlassesDude.png" height="80px" style="margin-top: -30px"><span id='logo'>TutorHub</span></a>
+              <a class="navbar-brand" id='logoContainer' href="#home"><img id="logoimg" src="/images/HipsterGlassesDude.png" height="80px" style="margin-top: -30px"><span id='logo'>TutorHub</span></a>
               <!-- #Logo Ends -->
 
 
