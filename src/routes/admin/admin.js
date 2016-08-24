@@ -8,12 +8,14 @@ var MenuOptions = require('../MenuOptions');
 /* GET home page. */
 router.get('/', sessionMiddleware.enforceSession, sessionMiddleware.enforceAdmin, function(req, res, next) {
 	var user = res.locals&&res.locals.user?res.locals.user:null;
+	var greeting = "Welcome, "+user.username;
 	res.render('admin/dashboard', {
 		user: user,
 		menuOpts: new MenuOptions({
 			authLvl: user?user.authLvl:0,
+			default: false,
 			dropdowns: [{
-				title:"Admin",
+				title: greeting,
 				opts: [
 					{value:'Users',href:'#users'},
 					{value:'Sessions',href:'#sessions'},

@@ -44,11 +44,9 @@
                 <% } %>
 
                 <%- menuOpts.generateLinks() %>
-                <%- menuOpts.generateDropdowns() %>
 
                  <% if (user && user.username) { %>
-                  <li><a>Welcome, <%= user.username %>.</a></li>
-                  <li><a href="/auth/logout">Logout</a></li>
+                  <%- menuOpts.generateDropdowns() %>
                  <% } else { %>
                   <% if (menuOpts.homepage) { %> <li class="scroll"><a href="#signUp">Sign Up</a></li> <% } %>
                   <li><a href="/auth">Sign In</a></li>

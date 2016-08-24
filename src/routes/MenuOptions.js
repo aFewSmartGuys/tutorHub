@@ -10,22 +10,19 @@
  * 	href:str,
  * 	value:str
  * }
- * dropodown={
+ * dropdown={
  * 	title:str,
  * 	opts:Array[opt]
  * }
  */
 function MenuOptions(args) {
-	this.l3 = [{value:'Dashboard',href:'/admin'}];
-	this.l0 = [{value:'Booking',href:'/user'}];
-
-	this.homepage = args.homepage || false;
-	this.default = args.default;
+	this.homepage = args.homepage||false;
 	this.dropdowns = null;
 	this.dropdown = null;
 
-	this.links = args.custom instanceof Array ?
-	args.custom.concat(this.genCustomOpts(args.authLvl)) : this.genCustomOpts(args.authLvl);
+	this.links =   !args.default ?                        []                            :
+	args.custom instanceof Array ? args.custom.concat(this.genCustomOpts(args.authLvl)) :
+	this.genCustomOpts(args.authLvl);
 
 	// set up dropdown menu items
 	// dropdowns if an array is provided otherwise looks for a single object
@@ -64,6 +61,12 @@ MenuOptions.prototype.generateLinks = function() {
  * @return Array of options
  */
 MenuOptions.prototype.genCustomOpts = function(authLvl) {
+	var premade = {
+		solo: {
+			l0:[{value:'Booking',href:'/user'}],
+			l3:[{value:'Dashboard',href:'/admin'}]
+		}
+	};
 	// 0 =  min authlvl
 	// 3 = max authlvl
 	// TODO: get min and max as variables
@@ -73,8 +76,8 @@ MenuOptions.prototype.genCustomOpts = function(authLvl) {
 	var optsarr = [];
 	for (let i = 0; i <= authLvl; ++i) {
 		let opts = 'l'+i;
-		if (this.hasOwnProperty(opts)) {
-			optsarr = optsarr.concat(this[opts]);
+		if (premade.solo.hasOwnProperty(opts)) {
+			optsarr = optsarr.concat(premade.solo[opts]);
 		}
 	}
 	return optsarr;
